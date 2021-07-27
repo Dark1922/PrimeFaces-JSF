@@ -6,8 +6,8 @@
 	<persistence-unit name="primefacesjsp">
 
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>br.com.entidades.TelefoneUser</class>
-		<class>br.com.entidades.UsuarioPessoa</class>
+		<class>br.com.model.TelefoneUser</class>
+		<class>br.com.model.UsuarioPessoa</class>
 
 		<properties>
 

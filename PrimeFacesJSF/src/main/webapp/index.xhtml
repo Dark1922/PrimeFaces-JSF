@@ -7,11 +7,19 @@ xmlns:h="http://java.sun.com/jsf/html">
  <title>Iníncio</title>
  </h:head>
 <h:body>
-<h2>Hello</h2>
 
 <h:form>
-<h:outputLabel>Olá JSF</h:outputLabel>
-<h:inputText></h:inputText>
+
+<h:outputLabel>Id:</h:outputLabel>
+<h:inputText readonly="true" value="#{usuarioPessoaManagedBean.usuarioPessoa.id}"/>
+
+<h:outputLabel>Nome:</h:outputLabel>
+<h:inputText readonly="true" value="#{usuarioPessoaManagedBean.usuarioPessoa.nome}"/>
+
+<h:outputLabel>Sobrenome:</h:outputLabel>
+<h:inputText readonly="true" value="#{usuarioPessoaManagedBean.usuarioPessoa.sobrenome}"/>
+
+
 </h:form>
 </h:body>
 </html>

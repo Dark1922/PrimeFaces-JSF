@@ -1,4 +1,4 @@
-package br.com.entidades;
+package br.com.model;
 
 import java.util.List;
 

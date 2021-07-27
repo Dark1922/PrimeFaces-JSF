@@ -5,8 +5,8 @@ import java.util.List;
 import org.junit.Test;
 
 import br.com.dao.DaoGeneric;
-import br.com.entidades.TelefoneUser;
-import br.com.entidades.UsuarioPessoa;
+import br.com.model.TelefoneUser;
+import br.com.model.UsuarioPessoa;
 
 public class TesteHibernate {
 
