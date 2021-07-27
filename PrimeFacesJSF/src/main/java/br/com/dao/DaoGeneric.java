@@ -1,91 +1,125 @@
 package br.com.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import br.com.primefaces.HibernateUtil;
+import br.com.jpautil.JPAUtil;
 
-public class DaoGeneric<E> {// e de entidade
+public class DaoGeneric<E> implements Serializable { // E de entidade pode ser qlq outra letra
 
-	private EntityManager entityManager = HibernateUtil.geEntityManager();
+	private static final long serialVersionUID = 1L;
 
-	public void salvar(E entidade) {
- 
-		EntityTransaction transaction = entityManager.getTransaction(); // transação
+	public void salvar(E entidade) { // método de salvar 
 
-		transaction.begin(); // inica transação
+		// vai manter a persistencia do nosso método JPAUtil
+		EntityManager entityManager = JPAUtil.getEntityManager();
 
-		entityManager.persist(entidade); // vai persistir a transação
+		// pra fazer alguma alteração no banco de dados uma transação
+		// iniciar um méotodo de salvar deletar
+		EntityTransaction entityTransaction = entityManager.getTransaction();
 
-		transaction.commit();// vai salvar
+		entityTransaction.begin(); // deixa ativo a transaction pra poder salvar etc
 
+		entityManager.persist(entidade); // vai salvar a entidade que foi recebida como parâmetro
+
+		entityTransaction.commit(); // depois de salvar com persist vai commitar pro banco
+		entityManager.close(); // fecha o processo
 	}
 
-	public E updateMerge(E entidade) {// salva ou atualiza
+	public E updat(E entidade) { // método de atualizar e salvar / retorno E de entidade
 
-		EntityTransaction transaction = entityManager.getTransaction(); // transação
+		// vai manter a persistencia do nosso método JPAUtil
+		EntityManager entityManager = JPAUtil.getEntityManager();
 
-		transaction.begin(); // inica transação começa
+		// pra fazer alguma alteração no banco de dados uma transação
+		// iniciar um méotodo de salvar deletar
+		EntityTransaction entityTransaction = entityManager.getTransaction();
 
-		E entidadeSalva = entityManager.merge(entidade); // recebe um objeto salva se n existir , se existir atualiza
+		entityTransaction.begin(); // deixa ativo a transaction pra poder salvar etc
 
-		transaction.commit();// vai salvar
+		// vai retorna nossa entidade
+		E retorno = entityManager.merge(entidade); // vai salvar ou atualizar a entidade que foi recebida como parâmetro
 
-		return entidadeSalva;
+		entityTransaction.commit(); // depois de salvar com persist vai commitar pro banco
+		entityManager.close(); // fecha o processo
+
+		return retorno;
 	}
 
-	public E pesquisar(E entidade) {
+	public void delete(E entidade) { // método de salvar
 
-		Object id = HibernateUtil.getPrimaryKey(entidade);
+		// vai manter a persistencia do nosso método JPAUtil
+		EntityManager entityManager = JPAUtil.getEntityManager();
 
-		E e = (E) entityManager.find(entidade.getClass(), id); // find buscar
+		// pra fazer alguma alteração no banco de dados uma transação
+		// iniciar um méotodo de salvar deletar
+		EntityTransaction entityTransaction = entityManager.getTransaction();
 
-		return e; // pesquiso
+		entityTransaction.begin(); // deixa ativo a transaction pra poder salvar etc
+
+		entityManager.remove(entidade); // vai remover
+
+		entityTransaction.commit(); // depois de salvar com persist vai commitar pro banco
+		entityManager.close(); // fecha o processo
 	}
 
-	public E pesquisar2(Long id, Class<E> entidade) {
-		E e = (E) entityManager.find(entidade, id); // find buscar
-		return e; // pesquiso
+	public void deletePorId(E entidade) { // método de salvar
+
+		// vai manter a persistencia do nosso método JPAUtil
+		EntityManager entityManager = JPAUtil.getEntityManager();
+
+		// pra fazer alguma alteração no banco de dados uma transação
+		// iniciar um méotodo de salvar deletar
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+
+		entityTransaction.begin(); // deixa ativo a transaction pra poder salvar etc
+
+		Object id = JPAUtil.getPrimaryKey(entidade); // identifica o id da primary
+
+		// usa o getClass.GetName do java vai passar o nome da nossa tabela Pessoa massa
+		// e o id identificado e deletar ele
+		entityManager.createQuery("delete from " + entidade.getClass().getName() + " where id = " + id).executeUpdate(); // update
+																															// serve
+																															// pra
+																															// delete
+																															// tb;
+
+		entityTransaction.commit(); // depois de salvar com persist vai commitar pro banco
+		entityManager.close(); // fecha o processo
 	}
 
-	public void deletarPorId(E entidade) {
+	public List<E> getListEntity(Class<E> entidade) {
 
-		// qual é a primaryKey dela para deletar
-		Object id = HibernateUtil.getPrimaryKey(entidade);
+		// vai manter a persistencia do nosso método JPAUtil
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin(); // deixa ativo a transaction pra poder salvar etc
 
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
+		// por debaixo dos pano vai fazer um from * select Pessoa pq vai passar a pessoa
+		// dentro do entidadae (class<E> entidade)
+		// class genérica pode usar pra todas tabela
+		List<E> retorno = entityManager.createQuery("from " + entidade.getName()).getResultList();
 
-		// vai falar tipo dele from usuario where id = ao id passado , tá genérico
-		entityManager
-				.createNativeQuery(
-						"delete from " + entidade.getClass().getSimpleName().toLowerCase() + 
-						" where id =" + id).executeUpdate(); // faz delete
+		entityTransaction.commit(); // depois de salvar com persist vai commitar pro banco
+		entityManager.close(); // fecha o process
 
-				
-		transaction.commit(); // comita pro banco as alteração grava
+		return retorno;
 	}
 
-	// lista e a classe que vai listar entidade
-	public List<E> listar(Class<E> entidade) {
+	public E consultar(Class<E> entidade, String codigoId) {
 
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
 
-		// from o nome da nossa entidade e retorna o resultado em lista
-		//mesma coisa que from * usuariopessoa só que de forma genérica
-		List<E> lista = entityManager.createQuery("from  " + entidade.getName()).getResultList();
-
-		transaction.commit();
-
-		return lista;
-
+		E objeto = (E) entityManager.find(entidade, Long.parseLong(codigoId));
+		entityTransaction.commit();	
+		entityManager.close();
+		
+		return objeto;
 	}
-	
-	//acessar nosso entityManager em outras parte do projeto
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
+
 }
