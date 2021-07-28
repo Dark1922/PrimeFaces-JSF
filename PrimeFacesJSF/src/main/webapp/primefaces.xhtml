@@ -10,120 +10,113 @@
 </h:head>
 <h:body>
 
+ 
 
+	<h:form id="formPessoa">
 
-	<h:form id="formPessoa"
-		style="display:grid; justify-content: center; margin-top: 10%;"
-		enctype="multipart/form-data">
-  
-  <!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
-		<h:messages showDetail="true" showSummary="false"
-			style="color: green; font-size: 19px; list-style-type: none; text-align:center;"  />
+		<!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
+		<p:messages showDetail="true" showSummary="false"
+			style="color: green; font-size: 19px; list-style-type: none; text-align:center;" />
 
-		<h:panelGrid columns="2" style="margin: 20px">
+		<p:panelGrid columns="2" style="margin: 15px;  display:flex; justify-content: center; margin-top: 3%;">
 
-			<h:outputLabel>Id:</h:outputLabel>
-			<h:inputText readonly="true"
+			<p:outputLabel>Id:</p:outputLabel>
+			<p:inputText readonly="true"
 				value="#{usuarioPessoaManagedBean.usuarioPessoa.id}" />
 
-			<h:outputLabel>Nome:</h:outputLabel>
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.nome}"
+			<p:outputLabel>Nome:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.nome}"
 				required="true" requiredMessage="Informe o Nome" />
 
-			<h:outputLabel>Sobrenome:</h:outputLabel>
-			<h:inputText
+			<p:outputLabel>Sobrenome:</p:outputLabel>
+			<p:inputText
 				value="#{usuarioPessoaManagedBean.usuarioPessoa.sobrenome}"
 				required="true" requiredMessage="Informe o Sobrenome" />
 
-			<h:outputLabel>Email:</h:outputLabel>
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}"
+			<p:outputLabel>Email:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}"
 				required="true" requiredMessage="Informe o Email" />
 
-			<h:outputLabel>Idade:</h:outputLabel>
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
+			<p:outputLabel>Idade:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
 				required="true" requiredMessage="Informe a Idade" />
 
-			<h:outputLabel>Login:</h:outputLabel>
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"
+			<p:outputLabel>Login:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"
 				required="true" requiredMessage="Informe o Login" />
 
-			<h:outputLabel>Senha:</h:outputLabel>
-			<h:inputSecret
-				value="#{usuarioPessoaManagedBean.usuarioPessoa.senha}"
+			<p:outputLabel>Senha:</p:outputLabel>
+			<p:password value="#{usuarioPessoaManagedBean.usuarioPessoa.senha}"
 				required="true" requiredMessage="Informe a  Senha" />
 
-			<h:panelGroup>
-				<h:commandButton value="Salvar"
-					action="#{usuarioPessoaManagedBean.salvar}" />
-				<h:commandButton value="Novo"
-					action="#{usuarioPessoaManagedBean.novo}" />
+		</p:panelGrid>
 
-			</h:panelGroup>
-		</h:panelGrid>
+            <div style="display:flex; justify-content: center; margin-right: 160px">
+            
+			<p:commandButton value="Salvar" style="margin-right: 5px;"
+				action="#{usuarioPessoaManagedBean.salvar}" ajax="false" />
 
-
+			<p:commandButton value="Novo" immediate="true"
+				action="#{usuarioPessoaManagedBean.novo}" >
+				<f:ajax execute="@this" render="@form"/>
+				</p:commandButton>
+             </div>
 
 	</h:form>
 
+
+
+
 	<h:form id="formTable"
-		style="display:grid; justify-content: center; margin-top: 10px;">
+		style="display:grid; justify-content: center; margin-top: 37px; ">
 
-		<h:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
-			border="1" style="text-align:center; " cellpadding="17">
+		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
+			border="1" cellpadding="17">
 
-			<h:column>
-				<f:facet name="header">ID</f:facet>
+	<f:facet name="header">Lista de Usuários</f:facet>
+			<p:column style="width: 40px;" headerText="ID">
 				<h:outputText value="#{user.id}" />
-			</h:column>
+			</p:column>
 
-			<h:column>
-				<f:facet name="header">Nome</f:facet>
+			<p:column headerText="Nome">
 				<h:outputText value="#{user.nome}" />
-			</h:column>
+			</p:column>
 
-			<h:column>
-				<f:facet name="header">Sobrenome</f:facet>
+			<p:column headerText="Sobrenome">
 				<h:outputText value="#{user.sobrenome}" />
-			</h:column>
+			</p:column>
 
-			<h:column>
-				<f:facet name="header">Email</f:facet>
+			<p:column style="width: 235px;" headerText="Email">
 				<h:outputText value="#{user.email}" />
-			</h:column>
+			</p:column>
 
-			<h:column>
-				<f:facet name="header">Login</f:facet>
+			<p:column headerText="Login">
 				<h:outputText value="#{user.login}" />
-			</h:column>
+			</p:column>
 
-			<h:column>
-				<f:facet name="header">Idade</f:facet>
+			<p:column headerText="Idade">
 				<h:outputText value="#{user.idade}" />
-			</h:column>
+			</p:column>
 
-			<h:column>
-				<f:facet name="header">Editar</f:facet>
+			<p:column headerText="Editar">
 				<h:commandLink immediate="true">
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-					<h:graphicImage value="/resources/img/editar.png" title="Editar" />
+					<p:graphicImage value="/resources/img/editar.png" title="Editar" />
 				</h:commandLink>
-			</h:column>
+			</p:column>
 
-			<h:column>
-				<f:facet name="header">Excluir</f:facet>
+			<p:column headerText="Excluir" >
 				<h:commandLink action="#{usuarioPessoaManagedBean.remove}"
 					immediate="true">
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-					<h:graphicImage value="/resources/img/excluir.png" title="Excluir" />
+					<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
 				</h:commandLink>
 
+			</p:column>
 
-
-			</h:column>
-
-		</h:dataTable>
+		</p:dataTable>
 
 	</h:form>
 </h:body>
