@@ -3,6 +3,7 @@ package managedBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -19,38 +20,54 @@ public class UsuarioPessoaManagedBean {
 	private DaoGeneric<UsuarioPessoa> daoGeneric = new DaoGeneric<UsuarioPessoa>();
 	private List<UsuarioPessoa> list = new ArrayList<UsuarioPessoa>();
 
+	@PostConstruct
+	public void init () { //qnd iniciar a tela vai executar esse método de mostrar a tabela
+		//vai consultar no banco apenas uma vez
+		list = daoGeneric.getListEntity(UsuarioPessoa.class);
+	}
+	
 	
 	public String salvar() {
-		
+
 		daoGeneric.updat(usuarioPessoa);
+		list.add(usuarioPessoa); //adiciona pra lista o novo user
 		usuarioPessoa = new UsuarioPessoa();
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Salvo com Sucesso!"));
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Salvo com Sucesso!"));
 		return "";
 	}
-	
+
 	public String novo() {
-		
 		usuarioPessoa = new UsuarioPessoa();
 		return "";
 	}
-		
+
 	public String remove() {
 
-		daoGeneric.deletePorId(usuarioPessoa);
-		usuarioPessoa = new UsuarioPessoa();
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Removido com Sucesso!"));
-		return "";
-	}
-	
+		try {
+			daoGeneric.deletePorId(usuarioPessoa);
+			list.remove(usuarioPessoa); //remove da lista esse objeto
+			usuarioPessoa = new UsuarioPessoa();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Removido com Sucesso!"));
 
-	
-	//get da nossa lista
+		} catch (Exception e) {
+			if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Informação: ", "Existem! telefones para o usuario"));
+			}
+			e.printStackTrace();
+		}
+		return "";
+
+	}
+
+	// get da nossa lista
 	public List<UsuarioPessoa> getList() {
-		list = daoGeneric.getListEntity(UsuarioPessoa.class);
+		
 		return list;
 	}
-	
-	
+
 	public UsuarioPessoa getUsuarioPessoa() {
 		return usuarioPessoa;
 	}

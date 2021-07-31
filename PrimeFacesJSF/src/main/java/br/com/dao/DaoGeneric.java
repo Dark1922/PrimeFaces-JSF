@@ -66,7 +66,7 @@ public class DaoGeneric<E> implements Serializable { // E de entidade pode ser q
 		entityManager.close(); // fecha o processo
 	}
 
-	public void deletePorId(E entidade) { // método de salvar
+	public void deletePorId(E entidade) throws Exception { // método de eletar
 
 		// vai manter a persistencia do nosso método JPAUtil
 		EntityManager entityManager = JPAUtil.getEntityManager();

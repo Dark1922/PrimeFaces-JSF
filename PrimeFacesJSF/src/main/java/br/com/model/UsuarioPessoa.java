@@ -7,17 +7,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "UsuarioPessoa.findAll", query = "select u from UsuarioPessoa u"),
-		@NamedQuery(name = "UsuarioPessoa.buscaPorNome", query = "select u from UsuarioPessoa u where u.nome = :nome")
-
-})
 public class UsuarioPessoa {
-
+      
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -28,6 +23,16 @@ public class UsuarioPessoa {
 	private String login;
 	private String senha;
 	private int idade;
+	private String sexo;
+	
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
 
 	// mapeado com usuarioPessoa do telefoneUser que está fazendo o ManyToOne
 	// ele que vai trazer os telefones dos usuarios
@@ -36,6 +41,29 @@ public class UsuarioPessoa {
 
 	public void setTelefoneUsers(List<TelefoneUser> telefoneUsers) {
 		this.telefoneUsers = telefoneUsers;
+	}
+
+	//hash code e equal do id, pra remover objtos da tabela pra diferencias esses objetos
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UsuarioPessoa other = (UsuarioPessoa) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 	public List<TelefoneUser> getTelefoneUsers() {

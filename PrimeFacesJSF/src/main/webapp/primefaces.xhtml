@@ -47,6 +47,15 @@
 			<p:outputLabel>Idade:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
 				required="true" requiredMessage="Informe a Idade" />
+				
+				<p:outputLabel>Sexo:</p:outputLabel>
+			<p:selectOneMenu value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}" required="true" requiredMessage="Selecione o Sexo ">
+			
+			<f:selectItem  itemLabel="Selecione" noSelectionOption="true" />
+			<f:selectItem  itemValue="MASCULINO" itemLabel="Masculino"/>
+			<f:selectItem itemValue="FEMININO" itemLabel="Feminino"/>
+			
+			</p:selectOneMenu>
 
 			<p:outputLabel>Login:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"

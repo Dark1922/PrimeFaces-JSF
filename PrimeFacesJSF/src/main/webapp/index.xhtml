@@ -6,8 +6,9 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Iníncio</title>
+	<title>Inicio</title>
 </h:head>
+
 <h:body>
 
   <h:form>
@@ -24,7 +25,7 @@
   
   <!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
 		<h:messages showDetail="true" showSummary="false"
-			style="color: green; font-size: 19px; list-style-type: none; text-align:center;"  />
+			style="color: green; font-size: 19px; list-style-type: none; text-align:center;" id="msg"  />
 
 		<h:panelGrid columns="2" style="margin: 20px">
 
@@ -48,6 +49,15 @@
 			<h:outputLabel>Idade:</h:outputLabel>
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
 				required="true" requiredMessage="Informe a Idade" />
+				
+			<h:outputLabel>Sexo:</h:outputLabel>
+			<h:selectOneMenu value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}">
+			
+			<f:selectItem  itemLabel="Selecione" noSelectionOption="true" />
+			<f:selectItem  itemValue="MASCULINO" itemLabel="Masculino"/>
+			<f:selectItem itemValue="FEMININO" itemLabel="Feminino"/>
+			
+			</h:selectOneMenu>	
 
 			<h:outputLabel>Login:</h:outputLabel>
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"
@@ -58,14 +68,18 @@
 				value="#{usuarioPessoaManagedBean.usuarioPessoa.senha}"
 				required="true" requiredMessage="Informe a  Senha" />
 
-			<h:panelGroup>
-				<h:commandButton value="Salvar"
-					action="#{usuarioPessoaManagedBean.salvar}" />
-				<h:commandButton value="Novo"
-					action="#{usuarioPessoaManagedBean.novo}" />
-
-			</h:panelGroup>
 		</h:panelGrid>
+		
+			 <div style="display:flex; justify-content: center; margin-right: 160px">
+            
+			<h:commandButton value="Salvar" style="margin-right: 5px;"
+				action="#{usuarioPessoaManagedBean.salvar}" ajax="false" />
+
+			<h:commandButton value="Novo" immediate="true"
+				action="#{usuarioPessoaManagedBean.novo}" >
+				<f:ajax execute="@this" render="@form"/>
+				</h:commandButton>
+             </div>
 
 
 
@@ -109,7 +123,7 @@
 
 			<h:column>
 				<f:facet name="header">Editar</f:facet>
-				<h:commandLink immediate="true">
+				<h:commandLink immediate="true" >
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
 					<h:graphicImage value="/resources/img/editar.png" title="Editar" />
@@ -122,6 +136,7 @@
 					immediate="true">
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
+						<f:ajax execute="botaoremover" render="@form :formPessoa:msg"/>
 					<h:graphicImage value="/resources/img/excluir.png" title="Excluir" />
 				</h:commandLink>
 
