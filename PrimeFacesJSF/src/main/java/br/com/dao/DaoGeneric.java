@@ -121,5 +121,10 @@ public class DaoGeneric<E> implements Serializable { // E de entidade pode ser q
 		
 		return objeto;
 	}
+	//get da conexção do banco 
+	public EntityManager getEntityManager() {
+		EntityManager entityManager = JPAUtil.getEntityManager();;
+		return entityManager;
+	}
 
 }

@@ -20,7 +20,7 @@
    </h:form>
 
 	<h:form id="formPessoa"
-		style="display:grid; justify-content: center; margin-top: 10%;"
+		style="display:grid; justify-content: center; margin-top: 3%;"
 		enctype="multipart/form-data">
   
   <!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
@@ -44,14 +44,14 @@
 
 			<h:outputLabel>Email:</h:outputLabel>
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}"
-				required="true" requiredMessage="Informe o Email" />
+				required="true" requiredMessage="Informe o Email"/>
 
 			<h:outputLabel>Idade:</h:outputLabel>
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
 				required="true" requiredMessage="Informe a Idade" />
 				
 			<h:outputLabel>Sexo:</h:outputLabel>
-			<h:selectOneMenu value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}">
+			<h:selectOneMenu value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}" required="true" requiredMessage="Selecione o Sexo">
 			
 			<f:selectItem  itemLabel="Selecione" noSelectionOption="true" />
 			<f:selectItem  itemValue="MASCULINO" itemLabel="Masculino"/>
@@ -89,7 +89,7 @@
 		style="display:grid; justify-content: center; margin-top: 10px;">
 
 		<h:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
-			border="1" style="text-align:center; " cellpadding="17">
+			border="1" style="text-align:center; " cellpadding="20">
 
 			<h:column>
 				<f:facet name="header">ID</f:facet>

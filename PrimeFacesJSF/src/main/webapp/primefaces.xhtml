@@ -23,7 +23,7 @@
 
 		<!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
 		<p:messages showDetail="true" showSummary="false"
-			style="color: green; font-size: 19px; list-style-type: none; text-align:center;" />
+			style="color: green; font-size: 19px; list-style-type: none; text-align:center;" id="msg"/>
 
 		<p:panelGrid columns="2" style="margin: 15px;  display:flex; justify-content: center; margin-top: 3%;">
 
@@ -49,7 +49,7 @@
 				required="true" requiredMessage="Informe a Idade" />
 				
 				<p:outputLabel>Sexo:</p:outputLabel>
-			<p:selectOneMenu value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}" required="true" requiredMessage="Selecione o Sexo ">
+			<p:selectOneMenu value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}" required="true" requiredMessage="Selecione o Sexo">
 			
 			<f:selectItem  itemLabel="Selecione" noSelectionOption="true" />
 			<f:selectItem  itemValue="MASCULINO" itemLabel="Masculino"/>
@@ -127,6 +127,7 @@
 					immediate="true">
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
+						<f:ajax execute="botaoremover" render="@form :formPessoa:msg"/>
 					<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
 				</h:commandLink>
 
