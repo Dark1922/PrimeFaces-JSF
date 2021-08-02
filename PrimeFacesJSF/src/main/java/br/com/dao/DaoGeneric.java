@@ -11,6 +11,8 @@ import br.com.jpautil.JPAUtil;
 public class DaoGeneric<E> implements Serializable { // E de entidade pode ser qlq outra letra
 
 	private static final long serialVersionUID = 1L;
+	
+	private EntityManager entityManager = JPAUtil.getEntityManager();
 
 	public void salvar(E entidade) { // método de salvar 
 
@@ -121,10 +123,12 @@ public class DaoGeneric<E> implements Serializable { // E de entidade pode ser q
 		
 		return objeto;
 	}
-	//get da conexção do banco 
-	public EntityManager getEntityManager() {
-		EntityManager entityManager = JPAUtil.getEntityManager();;
-		return entityManager;
+	
+	//pesquisar a pessoa pelo id
+	public E pesquisar(Long id, Class<E> entidade) {
+		entityManager.clear();
+		E e = (E) entityManager.createQuery("from " + entidade.getSimpleName() + " where id = " + id).getSingleResult();
+		return e;
 	}
-
+	
 }

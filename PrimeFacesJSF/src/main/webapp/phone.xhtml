@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Inicio</title>
+</h:head>
+
+<h:body>
+
+  <h:form>
+   <p:breadCrumb>
+   <p:menuitem/>
+   <p:menuitem value="Página Jsf" action="index.jsf"/>
+   <p:menuitem value="Página Primefaces" action="primefaces.jsf"/>
+   </p:breadCrumb>
+   </h:form>
+
+	<h:form id="formPessoa"
+		style="display:grid; justify-content: center; margin-top: 3%;"
+		enctype="multipart/form-data">
+  
+  <!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
+		<h:messages showDetail="true" showSummary="false"
+			style="color: green; font-size: 19px; list-style-type: none; text-align:center;" id="msg"  />
+
+		<p:panelGrid columns="2" style="margin: 20px">
+
+			 <h1>Telefones</h1>
+			 <h:outputText  value="#{telefoneManegedBean.user.nome}"/>
+
+		</p:panelGrid>
+		
+			 <div style="display:flex; justify-content: center; margin-right: 160px">
+            
+			<p:commandButton value="Salvar" style="margin-right: 5px;"
+				action="#{usuarioPessoaManagedBean.salvar}" ajax="false" />
+
+			<p:commandButton value="Novo" immediate="true"
+				action="#{usuarioPessoaManagedBean.novo}" >
+				<f:ajax execute="@this" render="@form"/>
+				</p:commandButton>
+             </div>
+
+
+
+	</h:form>
+
+	<h:form id="formTable"
+		style="display:grid; justify-content: center; margin-top: 10px;">
+
+		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
+			border="1" style="text-align:center; " cellpadding="20">
+
+		
+
+			<p:column>
+				<f:facet name="header">Editar</f:facet>
+				<p:commandLink immediate="true" >
+					<f:setPropertyActionListener value="#{user}"
+						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
+					<h:graphicImage value="/resources/img/editar.png" title="Editar" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">Excluir</f:facet>
+				<p:commandLink action="#{usuarioPessoaManagedBean.remove}"
+					immediate="true">
+					<f:setPropertyActionListener value="#{user}"
+						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
+						<f:ajax execute="botaoremover" render="@form :formPessoa:msg"/>
+					<h:graphicImage value="/resources/img/excluir.png" title="Excluir" />
+				</p:commandLink>
+
+
+
+			</p:column>
+			
+				
+
+		</p:dataTable>
+
+	</h:form>
+</h:body>
+</html>
