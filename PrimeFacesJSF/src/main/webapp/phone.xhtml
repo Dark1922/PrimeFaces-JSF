@@ -11,39 +11,47 @@
 
 <h:body>
 
-  <h:form>
-   <p:breadCrumb>
-   <p:menuitem/>
-   <p:menuitem value="Página Jsf" action="index.jsf"/>
-   <p:menuitem value="Página Primefaces" action="primefaces.jsf"/>
-   </p:breadCrumb>
-   </h:form>
+	<h:form>
+		<p:breadCrumb>
+			<p:menuitem />
+			<p:menuitem value="Página Jsf" action="index.jsf" />
+			<p:menuitem value="Página Primefaces" action="primefaces.jsf" />
+		</p:breadCrumb>
+	</h:form>
 
 	<h:form id="formPessoa"
 		style="display:grid; justify-content: center; margin-top: 3%;"
 		enctype="multipart/form-data">
-  
-  <!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
+
+		<!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
 		<h:messages showDetail="true" showSummary="false"
-			style="color: green; font-size: 19px; list-style-type: none; text-align:center;" id="msg"  />
+			style="color: green; font-size: 19px; list-style-type: none; text-align:center;"
+			id="msg" />
 
 		<p:panelGrid columns="2" style="margin: 20px">
-
-			 <h1>Telefones</h1>
-			 <h:outputText  value="#{telefoneManegedBean.user.nome}"/>
+			<p:outputLabel value="Usuário" style="font-weight: bold; width: 20px;"  />
+			<p:inputText value="#{telefoneManegedBean.user.nome}" readonly="true"/>
+			
+				<p:outputLabel value="DDD" style="font-weight: bold;" />
+			<p:inputText value="#{telefoneManegedBean.telefone.ddd}" />
+			
+			<p:outputLabel value="Número" style="font-weight: bold;" />
+			<p:inputText value="#{telefoneManegedBean.telefone.numero}" />
+			
 
 		</p:panelGrid>
-		
-			 <div style="display:flex; justify-content: center; margin-right: 160px">
-            
+
+		<div
+			style="display: flex; justify-content: center; margin-right: 160px">
+
 			<p:commandButton value="Salvar" style="margin-right: 5px;"
-				action="#{usuarioPessoaManagedBean.salvar}" ajax="false" />
+				action="#{telefoneManegedBean.salvar}" ajax="false" />
 
 			<p:commandButton value="Novo" immediate="true"
-				action="#{usuarioPessoaManagedBean.novo}" >
-				<f:ajax execute="@this" render="@form"/>
-				</p:commandButton>
-             </div>
+				action="#{telefoneManegedBean.novo}"> 
+				<f:ajax execute="@this" render="@form" />
+			</p:commandButton>
+		</div>
 
 
 
@@ -55,11 +63,11 @@
 		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
 			border="1" style="text-align:center; " cellpadding="20">
 
-		
+
 
 			<p:column>
 				<f:facet name="header">Editar</f:facet>
-				<p:commandLink immediate="true" >
+				<p:commandLink immediate="true">
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
 					<h:graphicImage value="/resources/img/editar.png" title="Editar" />
@@ -72,15 +80,15 @@
 					immediate="true">
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-						<f:ajax execute="botaoremover" render="@form :formPessoa:msg"/>
+					<f:ajax execute="botaoremover" render="@form :formPessoa:msg" />
 					<h:graphicImage value="/resources/img/excluir.png" title="Excluir" />
 				</p:commandLink>
 
 
 
 			</p:column>
-			
-				
+
+
 
 		</p:dataTable>
 
