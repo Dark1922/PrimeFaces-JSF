@@ -15,7 +15,7 @@ import br.com.model.UsuarioPessoa;
 
 @ManagedBean(name = "usuarioPessoaManagedBean")
 @ViewScoped // vai carregar o usuario na tela segurar os dados
-public class UsuarioPessoaManagedBean {
+public class UsuarioPessoaManagedBean { 
 
 	private UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
 	private List<UsuarioPessoa> list = new ArrayList<UsuarioPessoa>();
@@ -31,11 +31,11 @@ public class UsuarioPessoaManagedBean {
 	public String salvar() {
 
 		daoGeneric.updat(usuarioPessoa);
-		usuarioPessoa = new UsuarioPessoa();
 		list.add(usuarioPessoa); // adiciona pra lista o novo user
+		usuarioPessoa = new UsuarioPessoa();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Salvo com Sucesso!"));
-		return "usuario-salvo";
+		return ""; 
 	}
 
 	public String novo() {

@@ -126,6 +126,8 @@ public class DaoGeneric<E> implements Serializable { // E de entidade pode ser q
 	
 	//pesquisar a pessoa pelo id
 	public E pesquisar(Long id, Class<E> entidade) {
+		
+		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.clear();
 		E e = (E) entityManager.createQuery("from " + entidade.getSimpleName() + " where id = " + id).getSingleResult();
 		return e;

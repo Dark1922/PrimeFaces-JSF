@@ -10,22 +10,24 @@
 </h:head>
 <h:body>
 
-   <h:form>
-   <p:breadCrumb>
-   <p:menuitem/>
-   <p:menuitem value="Página Jsf" action="index.jsf"/>
-   <p:menuitem value="Página Primefaces" action="primefaces.jsf"/>
-   </p:breadCrumb>
-   </h:form>
- 
+	<h:form>
+		<p:breadCrumb>
+			<p:menuitem />
+			<p:menuitem value="Página Jsf" action="index.jsf" />
+			<p:menuitem value="Página Primefaces" action="primefaces.jsf" />
+		</p:breadCrumb>
+	</h:form>
+
 
 	<h:form id="formPessoa">
 
 		<!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
 		<p:messages showDetail="true" showSummary="false"
-			style="color: green; font-size: 19px; list-style-type: none; text-align:center;" id="msg"/>
+			style="color: green; font-size: 19px; list-style-type: none; text-align:center;"
+			id="msg" />
 
-		<p:panelGrid columns="2" style="margin: 15px;  display:flex; justify-content: center; margin-top: 3%;">
+		<p:panelGrid columns="2"
+			style="margin: 15px;  display:flex; justify-content: center; margin-top: 3%;">
 
 			<p:outputLabel>Id:</p:outputLabel>
 			<p:inputText readonly="true"
@@ -47,14 +49,16 @@
 			<p:outputLabel>Idade:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
 				required="true" requiredMessage="Informe a Idade" />
-				
-				<p:outputLabel>Sexo:</p:outputLabel>
-			<p:selectOneMenu value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}" required="true" requiredMessage="Selecione o Sexo">
-			
-			<f:selectItem  itemLabel="Selecione" noSelectionOption="true" />
-			<f:selectItem  itemValue="MASCULINO" itemLabel="Masculino"/>
-			<f:selectItem itemValue="FEMININO" itemLabel="Feminino"/>
-			
+
+			<p:outputLabel>Sexo:</p:outputLabel>
+			<p:selectOneMenu
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}"
+				required="true" requiredMessage="Selecione o Sexo">
+
+				<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+				<f:selectItem itemValue="MASCULINO" itemLabel="Masculino" />
+				<f:selectItem itemValue="FEMININO" itemLabel="Feminino" />
+
 			</p:selectOneMenu>
 
 			<p:outputLabel>Login:</p:outputLabel>
@@ -67,16 +71,17 @@
 
 		</p:panelGrid>
 
-            <div style="display:flex; justify-content: center; margin-right: 160px">
-            
+		<div
+			style="display: flex; justify-content: center; margin-right: 160px">
+
 			<p:commandButton value="Salvar" style="margin-right: 5px;"
 				action="#{usuarioPessoaManagedBean.salvar}" ajax="false" />
 
 			<p:commandButton value="Novo" immediate="true"
-				action="#{usuarioPessoaManagedBean.novo}" >
-				<f:ajax execute="@this" render="@form"/>
-				</p:commandButton>
-             </div>
+				action="#{usuarioPessoaManagedBean.novo}">
+				<f:ajax execute="@this" render="@form" />
+			</p:commandButton>
+		</div>
 
 	</h:form>
 
@@ -89,7 +94,7 @@
 		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
 			border="1" cellpadding="17">
 
-	<f:facet name="header">Lista de Usuários</f:facet>
+			<f:facet name="header">Lista de Usuários</f:facet>
 			<p:column style="width: 40px;" headerText="ID">
 				<h:outputText value="#{user.id}" />
 			</p:column>
@@ -122,32 +127,29 @@
 				</h:commandLink>
 			</p:column>
 
-			<p:column headerText="Excluir" >
+			<p:column headerText="Excluir">
 				<h:commandLink action="#{usuarioPessoaManagedBean.remove}"
-					immediate="true">
+					immediate="true" id="botaoremover">
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-						<f:ajax execute="botaoremover" render="@form :formPessoa:msg"/>
+					<f:ajax execute="botaoremover" render="@form :formPessoa:msg" />
 					<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
 				</h:commandLink>
-
 			</p:column>
-			
-			
-			</h:column>
-			
-				<h:column>
-				<f:facet name="header">Telefones</f:facet>
-				<h:commandLink action="phone.jsf"
-					immediate="true" id="botaophone">
-					<f:param name="codigouser" value="#{user.id}"/>
-					<h:graphicImage value="/resources/img/telefone-icon.png" title="Telefone" width="32" height="32" />
-				</h:commandLink>
 
-			</h:column>
+
+			<p:column>
+				<f:facet name="header">Telefones</f:facet>
+				<h:commandLink action="phone.jsf" immediate="true" id="botaophone">
+					<f:param name="codigouser" value="#{user.id}" />
+					<p:graphicImage value="/resources/img/telefone-icon.png"
+						title="Telefone" width="32" height="32" />
+				</h:commandLink>
+			</p:column>
 
 		</p:dataTable>
 
 	</h:form>
+
 </h:body>
 </html>

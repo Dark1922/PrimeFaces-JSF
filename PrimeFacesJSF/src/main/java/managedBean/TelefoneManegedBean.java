@@ -1,8 +1,5 @@
 package managedBean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -17,26 +14,27 @@ import br.com.model.UsuarioPessoa;
 @ManagedBean(name = "telefoneManegedBean")
 @ViewScoped
 public class TelefoneManegedBean {
-	
+
 	private UsuarioPessoa user = new UsuarioPessoa();
 	private DaoUsuario<UsuarioPessoa> daoUser = new DaoUsuario<UsuarioPessoa>();
-	private DaoTelefones<TelefoneUser> daoTelefone = new DaoTelefones<TelefoneUser>(); 
-	private List<TelefoneUser> list = new ArrayList<TelefoneUser>();
+	private DaoTelefones<TelefoneUser> daoTelefone = new DaoTelefones<TelefoneUser>();
 
 	private TelefoneUser telefone = new TelefoneUser();
-	
+
 	@PostConstruct
 	public void init() {
-		//vai trazer o código do usuario qnd clcia no telefone do id dele e trazer os tel dele massa
-		String codUser = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codigouser");
+		// vai trazer o código do usuario qnd clcia no telefone do id dele e trazer os
+		// tel dele massa
+		String codUser = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+				.get("codigouser");
 		user = daoUser.pesquisar(Long.parseLong(codUser), UsuarioPessoa.class);
 	}
-	
-	public String salvar() { 
-        telefone.setUsuarioPessoa(user); //pega o user que ta carregado
+
+	public String salvar() {
+		telefone.setUsuarioPessoa(user); // pega o user que ta carregado
 		daoTelefone.updat(telefone);
 		telefone = new TelefoneUser();
-		list.add(telefone); // adiciona pra lista o novo user
+		user = daoUser.pesquisar(user.getId(), UsuarioPessoa.class);
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Salvo com Sucesso!"));
 		return "";
@@ -48,15 +46,16 @@ public class TelefoneManegedBean {
 	}
 
 	public String remove() throws Exception {
-            
+
 		daoTelefone.deletePorId(telefone);
-			list.remove(telefone); // remove da lista esse objeto
-			telefone = new TelefoneUser();
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Removido com Sucesso!"));
+		user = daoUser.pesquisar(user.getId(), UsuarioPessoa.class);
+		telefone = new TelefoneUser();
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Telefone Removido!"));
 
 		return "";
 	}
+
 	public UsuarioPessoa getUser() {
 		return user;
 	}
@@ -64,26 +63,27 @@ public class TelefoneManegedBean {
 	public void setUser(UsuarioPessoa user) {
 		this.user = user;
 	}
-	
+
 	public void setDaoTelefone(DaoTelefones<TelefoneUser> daoTelefone) {
 		this.daoTelefone = daoTelefone;
 	}
-	
+
 	public DaoTelefones<TelefoneUser> getDaoTelefone() {
 		return daoTelefone;
 	}
-	
+
 	public void setDaoUser(DaoUsuario<UsuarioPessoa> daoUser) {
 		this.daoUser = daoUser;
 	}
-	
+
 	public DaoUsuario<UsuarioPessoa> getDaoUser() {
 		return daoUser;
 	}
-	
+
 	public void setTelefone(TelefoneUser telefone) {
 		this.telefone = telefone;
 	}
+
 	public TelefoneUser getTelefone() {
 		return telefone;
 	}

@@ -133,7 +133,7 @@
 			<h:column>
 				<f:facet name="header">Excluir</f:facet>
 				<h:commandLink action="#{usuarioPessoaManagedBean.remove}"
-					immediate="true">
+					immediate="true" id="botaoremover">
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
 						<f:ajax execute="botaoremover" render="@form :formPessoa:msg"/>

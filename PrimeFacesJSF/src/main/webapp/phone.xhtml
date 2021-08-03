@@ -52,43 +52,43 @@
 				<f:ajax execute="@this" render="@form" />
 			</p:commandButton>
 		</div>
-
-
-
 	</h:form>
 
-	<h:form id="formTable"
-		style="display:grid; justify-content: center; margin-top: 10px;">
 
-		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
-			border="1" style="text-align:center; " cellpadding="20">
+	<h:form id="formTelefones"
+		style="display:grid; justify-content: center; margin-top: 40px;">
+
+		<p:dataTable value="#{telefoneManegedBean.user.telefoneUsers}" var="fone"
+			 style="text-align:center;"  id="tabelfone">
 
 
+            <f:facet name="header">Lista de Telefones</f:facet>
 
-			<p:column>
-				<f:facet name="header">Editar</f:facet>
-				<p:commandLink immediate="true">
-					<f:setPropertyActionListener value="#{user}"
-						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-					<h:graphicImage value="/resources/img/editar.png" title="Editar" />
-				</p:commandLink>
+				
+				<p:column headerText="ID">
+				<h:outputText value="#{fone.id}" />
 			</p:column>
+			
+			<p:column headerText="DDD">
+				<h:outputText value="#{fone.ddd}" />
+			</p:column>
+			
+			<p:column headerText="Número">
+				<h:outputText value="#{fone.numero}" />
+			</p:column>
+			
+			
 
 			<p:column>
 				<f:facet name="header">Excluir</f:facet>
-				<p:commandLink action="#{usuarioPessoaManagedBean.remove}"
-					immediate="true">
-					<f:setPropertyActionListener value="#{user}"
-						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
+				<h:commandLink action="#{telefoneManegedBean.remove}"
+					immediate="true" id="botaoremover">
+					<f:setPropertyActionListener value="#{fone}"
+						target="#{telefoneManegedBean.telefone}" />
 					<f:ajax execute="botaoremover" render="@form :formPessoa:msg" />
 					<h:graphicImage value="/resources/img/excluir.png" title="Excluir" />
-				</p:commandLink>
-
-
-
+				</h:commandLink>
 			</p:column>
-
-
 
 		</p:dataTable>
 
