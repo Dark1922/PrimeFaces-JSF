@@ -36,8 +36,9 @@
 
 			<p:outputLabel>Nome:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.nome}"
-				required="true" requiredMessage="Informe o Nome"
-				pt:placeholder="Informe um Nome" />
+				required="true" requiredMessage="Informe o Nome" id="nome">
+			<p:watermark value="Informe o Nome da pessoa" for="nome" />
+			</p:inputText>
 
 			<p:outputLabel>Sobrenome:</p:outputLabel>
 			<p:inputText
@@ -47,7 +48,9 @@
 			<p:outputLabel>Email:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}"
 				required="true" requiredMessage="Informe o Email"
-				pt:placeholder="Informe um email Válido" />
+				id="email" >
+				<p:watermark value="Infome um email de contato" for="email"/>
+				</p:inputText>
 
 			<p:outputLabel>Idade:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
@@ -66,7 +69,8 @@
 
 			<p:outputLabel value="CEP:" />
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.cep}"
-				pt:placeholder="Informe um Cep Válido" id="cepuser">
+				 id="cepuser">
+				 <p:watermark value="Informe um cep válido" for="cepuser" />
 				<f:ajax event="blur" execute="@this"
 					listener="#{usuarioPessoaManagedBean.pesquisaCep}"
 					render="logradouro complemento bairro localidade uf" />
@@ -100,7 +104,9 @@
 			<p:outputLabel value="Salário:" />
 			<p:inputText
 				value="#{usuarioPessoaManagedBean.usuarioPessoa.salario}"
-				id="salario" pt:placeholder="Informe o salário da pessoa" />
+				id="salario"> 
+				<p:watermark value="Infome o Sálario"  for="salario"/>
+				</p:inputText>
 
 			<p:outputLabel>Login:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"
@@ -192,8 +198,9 @@
 
 		</p:dataTable>
 	</h:form>
-	
-	<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"/>
+
+	<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"
+		style="margin-top:20px; padding:5px;" id="graficosalario" />
 
 </h:body>
 </html>
