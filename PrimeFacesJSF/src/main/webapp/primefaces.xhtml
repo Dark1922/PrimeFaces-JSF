@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
 	<title>Inicio</title>
@@ -35,7 +36,7 @@
 
 			<p:outputLabel>Nome:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.nome}"
-				required="true" requiredMessage="Informe o Nome" />
+				required="true" requiredMessage="Informe o Nome" pt:placeholder="Informe um Nome"/>
 
 			<p:outputLabel>Sobrenome:</p:outputLabel>
 			<p:inputText
@@ -44,7 +45,7 @@
 
 			<p:outputLabel>Email:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}"
-				required="true" requiredMessage="Informe o Email" />
+				required="true" requiredMessage="Informe o Email" pt:placeholder="Informe um email Válido" />
 
 			<p:outputLabel>Idade:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
@@ -60,29 +61,43 @@
 				<f:selectItem itemValue="FEMININO" itemLabel="Feminino" />
 
 			</p:selectOneMenu>
-			
+
 			<p:outputLabel value="CEP:" />
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.cep}"
 				pt:placeholder="Informe um Cep Válido" id="cepuser">
 				<f:ajax event="blur" execute="@this"
 					listener="#{usuarioPessoaManagedBean.pesquisaCep}"
-					render="logradouro complemento bairro localidade"
-					 />
+					render="logradouro complemento bairro localidade uf" />
 			</p:inputText>
 
 			<p:outputLabel value="Logadouro:" />
-			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.logradouro}" id="logradouro" />
+			<p:inputText
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.logradouro}"
+				id="logradouro" />
 
-			<p:outputLabel value="Complemento:" />
-			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.complemento}"
-				id="complemento" />
+
 
 			<p:outputLabel value="Bairro:" />
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.bairro}" id="bairro" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.bairro}"
+				id="bairro" />
 
 			<p:outputLabel value="Localidade:" />
-			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.localidade}" id="localidade" />
-		
+			<p:inputText
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.localidade}"
+				id="localidade" />
+
+			<p:outputLabel value="Complemento:" />
+			<p:inputText
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.complemento}"
+				id="complemento" />
+
+			<p:outputLabel value="Uf:" />
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.uf}"
+				id="uf" />
+				
+				<p:outputLabel value="Salário:" />
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.salario}"
+				id="salario" pt:placeholder="Informe o salário da pessoa" />
 
 			<p:outputLabel>Login:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"

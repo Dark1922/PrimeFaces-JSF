@@ -12,21 +12,22 @@
 
 <h:body>
 
-  <h:form>
-   <p:breadCrumb>
-   <p:menuitem/>
-   <p:menuitem value="Página Jsf" action="index.jsf"/>
-   <p:menuitem value="Página Primefaces" action="primefaces.jsf"/>
-   </p:breadCrumb>
-   </h:form>
+	<h:form>
+		<p:breadCrumb>
+			<p:menuitem />
+			<p:menuitem value="Página Jsf" action="index.jsf" />
+			<p:menuitem value="Página Primefaces" action="primefaces.jsf" />
+		</p:breadCrumb>
+	</h:form>
 
 	<h:form id="formPessoa"
 		style="display:grid; justify-content: center; margin-top: 3%;"
 		enctype="multipart/form-data">
-  
-  <!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
+
+		<!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
 		<h:messages showDetail="true" showSummary="false"
-			style="color: green; font-size: 19px; list-style-type: none; text-align:center;" id="msg"  />
+			style="color: green; font-size: 19px; list-style-type: none; text-align:center;"
+			id="msg" />
 
 		<h:panelGrid columns="2" style="margin: 20px">
 
@@ -36,7 +37,7 @@
 
 			<h:outputLabel>Nome:</h:outputLabel>
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.nome}"
-				required="true" requiredMessage="Informe o Nome" />
+				required="true" requiredMessage="Informe o Nome"  pt:placeholder="Informe um Nome"/>
 
 			<h:outputLabel>Sobrenome:</h:outputLabel>
 			<h:inputText
@@ -45,43 +46,59 @@
 
 			<h:outputLabel>Email:</h:outputLabel>
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}"
-				required="true" requiredMessage="Informe o Email"/>
+				required="true" requiredMessage="Informe o Email" pt:placeholder="Informe um email válido" />
 
 			<h:outputLabel>Idade:</h:outputLabel>
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
 				required="true" requiredMessage="Informe a Idade" />
-				
+
 			<h:outputLabel>Sexo:</h:outputLabel>
-			<h:selectOneMenu value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}" required="true" requiredMessage="Selecione o Sexo">
-			
-			<f:selectItem  itemLabel="Selecione" noSelectionOption="true" />
-			<f:selectItem  itemValue="MASCULINO" itemLabel="Masculino"/>
-			<f:selectItem itemValue="FEMININO" itemLabel="Feminino"/>
-			
-			</h:selectOneMenu>	
-			
+			<h:selectOneMenu
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}"
+				required="true" requiredMessage="Selecione o Sexo">
+
+				<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+				<f:selectItem itemValue="MASCULINO" itemLabel="Masculino" />
+				<f:selectItem itemValue="FEMININO" itemLabel="Feminino" />
+
+			</h:selectOneMenu>
+
 			<h:outputLabel value="CEP:" />
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.cep}"
 				pt:placeholder="Informe um Cep Válido" id="cepuser">
 				<f:ajax event="blur" execute="@this"
 					listener="#{usuarioPessoaManagedBean.pesquisaCep}"
-					render="logradouro complemento bairro localidade"
-					 />
+					render="logradouro complemento bairro localidade uf" />
 			</h:inputText>
 
 			<h:outputLabel value="Logadouro:" />
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.logradouro}" id="logradouro" />
+			<h:inputText
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.logradouro}"
+				id="logradouro" />
 
-			<h:outputLabel value="Complemento:" />
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.complemento}"
-				id="complemento" />
+
 
 			<h:outputLabel value="Bairro:" />
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.bairro}" id="bairro" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.bairro}"
+				id="bairro" />
 
 			<h:outputLabel value="Localidade:" />
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.localidade}" id="localidade" />
-		
+			<h:inputText
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.localidade}"
+				id="localidade" />
+
+			<h:outputLabel value="Complemento:" />
+			<h:inputText
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.complemento}"
+				id="complemento" />
+
+			<h:outputLabel value="Uf:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.uf}"
+				id="uf" />
+				
+					<h:outputLabel value="Salário:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.salario}"
+				id="salario" pt:placeholder="Informe o salário da pessoa" />
 
 			<h:outputLabel>Login:</h:outputLabel>
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"
@@ -93,17 +110,18 @@
 				required="true" requiredMessage="Informe a  Senha" />
 
 		</h:panelGrid>
-		
-			 <div style="display:flex; justify-content: center; margin-right: 160px">
-            
+
+		<div
+			style="display: flex; justify-content: center; margin-right: 160px">
+
 			<h:commandButton value="Salvar" style="margin-right: 5px;"
 				action="#{usuarioPessoaManagedBean.salvar}" ajax="false" />
 
 			<h:commandButton value="Novo" immediate="true"
-				action="#{usuarioPessoaManagedBean.novo}" >
-				<f:ajax execute="@this" render="@form"/>
-				</h:commandButton>
-             </div>
+				action="#{usuarioPessoaManagedBean.novo}">
+				<f:ajax execute="@this" render="@form" />
+			</h:commandButton>
+		</div>
 
 
 
@@ -147,7 +165,7 @@
 
 			<h:column>
 				<f:facet name="header">Editar</f:facet>
-				<h:commandLink immediate="true" >
+				<h:commandLink immediate="true">
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
 					<h:graphicImage value="/resources/img/editar.png" title="Editar" />
@@ -160,20 +178,20 @@
 					immediate="true" id="botaoremover">
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-						<f:ajax execute="botaoremover" render="@form :formPessoa:msg"/>
+					<f:ajax execute="botaoremover" render="@form :formPessoa:msg" />
 					<h:graphicImage value="/resources/img/excluir.png" title="Excluir" />
 				</h:commandLink>
 
 
 
 			</h:column>
-			
-				<h:column>
+
+			<h:column>
 				<f:facet name="header">Telefones</f:facet>
-				<h:commandLink action="phone.jsf"
-					immediate="true" id="botaophone">
-					<f:param name="codigouser" value="#{user.id}"/>
-					<h:graphicImage value="/resources/img/telefone-icon.png" title="Telefone" width="32" height="32" />
+				<h:commandLink action="phone.jsf" immediate="true" id="botaophone">
+					<f:param name="codigouser" value="#{user.id}" />
+					<h:graphicImage value="/resources/img/telefone-icon.png"
+						title="Telefone" width="32" height="32" />
 				</h:commandLink>
 
 			</h:column>

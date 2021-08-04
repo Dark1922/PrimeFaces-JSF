@@ -11,8 +11,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class UsuarioPessoa {
-      
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -24,7 +23,8 @@ public class UsuarioPessoa {
 	private String senha;
 	private int idade;
 	private String sexo;
-	
+	private Double salario;
+
 	private String cep;
 
 	private String logradouro;
@@ -42,7 +42,6 @@ public class UsuarioPessoa {
 	private String ibge;
 
 	private String gia;
-	
 
 	public String getCep() {
 		return cep;
@@ -126,14 +125,15 @@ public class UsuarioPessoa {
 
 	// mapeado com usuarioPessoa do telefoneUser que está fazendo o ManyToOne
 	// ele que vai trazer os telefones dos usuarios
-	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER)//eager trazer os telefone pra gente
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER) // eager trazer os telefone pra gente
 	private List<TelefoneUser> telefoneUsers;
 
 	public void setTelefoneUsers(List<TelefoneUser> telefoneUsers) {
 		this.telefoneUsers = telefoneUsers;
 	}
 
-	//hash code e equal do id, pra remover objtos da tabela pra diferencias esses objetos
+	// hash code e equal do id, pra remover objtos da tabela pra diferencias esses
+	// objetos
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -214,6 +214,14 @@ public class UsuarioPessoa {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public Double getSalario() {
+		return salario;
+	}
+
+	public void setSalario(Double salario) {
+		this.salario = salario;
 	}
 
 	@Override
