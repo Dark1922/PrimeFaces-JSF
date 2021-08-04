@@ -41,13 +41,13 @@ public class UsuarioPessoaManagedBean {
 		// vai consultar no banco apenas uma vez
 		list = daoGeneric.getListEntity(UsuarioPessoa.class);
 		
-		for (UsuarioPessoa usuarioPessoa : list) {
+		ChartSeries userSalario = new ChartSeries(); //grupo de fucionarios inicia 1 vez
+		for (UsuarioPessoa usuarioPessoa : list) { //add o salario para o grupo
 			//motando a tabela do usuario pelo nome e selario com chartseries passando pro barchatmodel
-			ChartSeries userSalario = new ChartSeries("Sálario dos Usuarios");
-			userSalario.setLabel("Users");
-			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario());
-			barChatModel.addSeries(userSalario);
+			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario()); //add salarios
 		}
+		barChatModel.addSeries(userSalario);//adiciona o grupo no barmodel
+		barChatModel.setTitle("Gráfico de Salários");//titulo do barchatmodel
 	}
 
 	public String salvar() {
