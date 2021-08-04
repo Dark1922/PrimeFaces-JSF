@@ -36,7 +36,8 @@
 
 			<p:outputLabel>Nome:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.nome}"
-				required="true" requiredMessage="Informe o Nome" pt:placeholder="Informe um Nome"/>
+				required="true" requiredMessage="Informe o Nome"
+				pt:placeholder="Informe um Nome" />
 
 			<p:outputLabel>Sobrenome:</p:outputLabel>
 			<p:inputText
@@ -45,7 +46,8 @@
 
 			<p:outputLabel>Email:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}"
-				required="true" requiredMessage="Informe o Email" pt:placeholder="Informe um email Válido" />
+				required="true" requiredMessage="Informe o Email"
+				pt:placeholder="Informe um email Válido" />
 
 			<p:outputLabel>Idade:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
@@ -94,9 +96,10 @@
 			<p:outputLabel value="Uf:" />
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.uf}"
 				id="uf" />
-				
-				<p:outputLabel value="Salário:" />
-			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.salario}"
+
+			<p:outputLabel value="Salário:" />
+			<p:inputText
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.salario}"
 				id="salario" pt:placeholder="Informe o salário da pessoa" />
 
 			<p:outputLabel>Login:</p:outputLabel>
@@ -149,13 +152,15 @@
 				<h:outputText value="#{user.email}" />
 			</p:column>
 
+			<p:column headerText="Idade">
+				<h:outputText value="#{user.idade}" />
+			</p:column>
+
 			<p:column headerText="Login">
 				<h:outputText value="#{user.login}" />
 			</p:column>
 
-			<p:column headerText="Idade">
-				<h:outputText value="#{user.idade}" />
-			</p:column>
+
 
 			<p:column headerText="Editar">
 				<h:commandLink immediate="true">
@@ -186,8 +191,9 @@
 			</p:column>
 
 		</p:dataTable>
-
 	</h:form>
+	
+	<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"/>
 
 </h:body>
 </html>

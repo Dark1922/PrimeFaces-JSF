@@ -16,6 +16,9 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.ChartSeries;
+
 import com.google.gson.Gson;
 
 import br.com.dao.DaoUsuario;
@@ -29,11 +32,22 @@ public class UsuarioPessoaManagedBean {
 	private List<UsuarioPessoa> list = new ArrayList<UsuarioPessoa>();
 	private DaoUsuario<UsuarioPessoa> daoGeneric = new DaoUsuario<UsuarioPessoa>();
 	// como ele está exetendo ao dao generic e dao usuario pode fazer isso
+	
+	//elemento do primefaces pra fazer gráfico de tabela
+	private BarChartModel barChatModel = new BarChartModel();
 
 	@PostConstruct
 	public void init() { // qnd iniciar a tela vai executar esse método de mostrar a tabela
 		// vai consultar no banco apenas uma vez
 		list = daoGeneric.getListEntity(UsuarioPessoa.class);
+		
+		for (UsuarioPessoa usuarioPessoa : list) {
+			//motando a tabela do usuario pelo nome e selario com chartseries passando pro barchatmodel
+			ChartSeries userSalario = new ChartSeries("Sálario dos Usuarios");
+			userSalario.setLabel("Users");
+			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario());
+			barChatModel.addSeries(userSalario);
+		}
 	}
 
 	public String salvar() {
@@ -129,6 +143,26 @@ public class UsuarioPessoaManagedBean {
 
 	public void setUsuarioPessoa(UsuarioPessoa usuarioPessoa) {
 		this.usuarioPessoa = usuarioPessoa;
+	}
+	
+	public void setBarChatModel(BarChartModel barChatModel) {
+		this.barChatModel = barChatModel;
+	}
+	
+	public BarChartModel getBarChatModel() {
+		return barChatModel;
+	}
+	
+	public void setDaoGeneric(DaoUsuario<UsuarioPessoa> daoGeneric) {
+		this.daoGeneric = daoGeneric;
+	}
+	
+	public void setList(List<UsuarioPessoa> list) {
+		this.list = list;
+	}
+	
+	public DaoUsuario<UsuarioPessoa> getDaoGeneric() {
+		return daoGeneric;
 	}
 
 }

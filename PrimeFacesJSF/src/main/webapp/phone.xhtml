@@ -33,10 +33,10 @@
 			<p:inputText value="#{telefoneManegedBean.user.nome}" readonly="true"/>
 			
 				<p:outputLabel value="DDD" style="font-weight: bold;" />
-			<p:inputText value="#{telefoneManegedBean.telefone.ddd}" />
+			<p:inputText value="#{telefoneManegedBean.telefone.ddd}" required="true" requiredMessage="Informe o DDD" />
 			
 			<p:outputLabel value="Número" style="font-weight: bold;" />
-			<p:inputText value="#{telefoneManegedBean.telefone.numero}" />
+			<p:inputText value="#{telefoneManegedBean.telefone.numero}" required="true" requiredMessage="Informe o Número" />
 			
 
 		</p:panelGrid>
