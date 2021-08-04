@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
 	<title>Inicio</title>
@@ -58,6 +59,29 @@
 			<f:selectItem itemValue="FEMININO" itemLabel="Feminino"/>
 			
 			</h:selectOneMenu>	
+			
+			<h:outputLabel value="CEP:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.cep}"
+				pt:placeholder="Informe um Cep Válido" id="cepuser">
+				<f:ajax event="blur" execute="@this"
+					listener="#{usuarioPessoaManagedBean.pesquisaCep}"
+					render="logradouro complemento bairro localidade"
+					 />
+			</h:inputText>
+
+			<h:outputLabel value="Logadouro:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.logradouro}" id="logradouro" />
+
+			<h:outputLabel value="Complemento:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.complemento}"
+				id="complemento" />
+
+			<h:outputLabel value="Bairro:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.bairro}" id="bairro" />
+
+			<h:outputLabel value="Localidade:" />
+			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.localidade}" id="localidade" />
+		
 
 			<h:outputLabel>Login:</h:outputLabel>
 			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"
