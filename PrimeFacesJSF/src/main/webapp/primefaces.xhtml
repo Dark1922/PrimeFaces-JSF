@@ -186,8 +186,22 @@
 						title="Telefone" width="32" height="32" />
 				</h:commandLink>
 			</p:column>
+			
+			<p:column headerText="E-mails">
+			<p:commandLink update=":formTable:dialogEmail" oncomplete="PF('dialogEmail').show()"> 
+			<f:setPropertyActionListener value="#{user}" target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
+			<h:graphicImage value="/resources/img/email.png"
+						title="Email" width="32" height="32"  />
+			</p:commandLink>
+			
+			</p:column>
 
 		</p:dataTable>
+		
+		<p:dialog header="E-mails" id="dialogEmail" position="center" modal="true" responsive="true" width="490" height="300" widgetVar="dialogEmail">
+		
+		</p:dialog>
+		
 	</h:form>
 
 	<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"

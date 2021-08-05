@@ -1,5 +1,6 @@
 package br.com.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,9 +14,14 @@ import javax.persistence.OneToMany;
 @Entity
 public class UsuarioPessoa {
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+
+	public Long getId() {
+		return id;
+	}
 
 	private String nome;
 	private String sobrenome;
@@ -43,15 +49,14 @@ public class UsuarioPessoa {
 
 	private String gia;
 	
-	// mapeado com usuarioPessoa do telefoneUser que está fazendo o ManyToOne
-		// ele que vai trazer os telefones dos usuarios
+	// mapeado com usuarioPessoa do telefoneUser que está fazendo o ManyToOne, ele que vai trazer os telefones dos usuarios
 		 // eager trazer os telefone pra gente
 	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<TelefoneUser> telefoneUsers; 
+	private List<TelefoneUser> telefoneUsers = new ArrayList<TelefoneUser>(); //instncia o array list evitar null setter pointer exception
 	
 	//vai ser invocado só qnd chamar o get emails LAZY
 	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<EmailUser> emails;
+	private List<EmailUser> emails = new ArrayList<EmailUser>();
 
 	public void setEmails(List<EmailUser> emails) {
 		this.emails = emails;
@@ -74,6 +79,9 @@ public class UsuarioPessoa {
 		this.cep = cep;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getLogradouro() {
 		return logradouro;
 	}
@@ -184,13 +192,7 @@ public class UsuarioPessoa {
 		return idade;
 	}
 
-	public long getId() {
-		return id;
-	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return nome;
