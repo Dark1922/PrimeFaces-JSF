@@ -2,6 +2,7 @@ package br.com.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,11 +15,10 @@ public class UsuarioPessoa {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	private String nome;
 	private String sobrenome;
-	private String email;
 	private String login;
 	private String senha;
 	private int idade;
@@ -42,7 +42,30 @@ public class UsuarioPessoa {
 	private String ibge;
 
 	private String gia;
+	
+	// mapeado com usuarioPessoa do telefoneUser que está fazendo o ManyToOne
+		// ele que vai trazer os telefones dos usuarios
+		 // eager trazer os telefone pra gente
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<TelefoneUser> telefoneUsers; 
+	
+	//vai ser invocado só qnd chamar o get emails LAZY
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<EmailUser> emails;
 
+	public void setEmails(List<EmailUser> emails) {
+		this.emails = emails;
+	}
+	
+	public List<EmailUser> getEmails() {
+		return emails;
+	}
+	
+	public List<TelefoneUser> getTelefoneUsers() {
+		return telefoneUsers;
+	}
+	
+	
 	public String getCep() {
 		return cep;
 	}
@@ -123,11 +146,6 @@ public class UsuarioPessoa {
 		this.sexo = sexo;
 	}
 
-	// mapeado com usuarioPessoa do telefoneUser que está fazendo o ManyToOne
-	// ele que vai trazer os telefones dos usuarios
-	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER) // eager trazer os telefone pra gente
-	private List<TelefoneUser> telefoneUsers;
-
 	public void setTelefoneUsers(List<TelefoneUser> telefoneUsers) {
 		this.telefoneUsers = telefoneUsers;
 	}
@@ -156,9 +174,7 @@ public class UsuarioPessoa {
 		return true;
 	}
 
-	public List<TelefoneUser> getTelefoneUsers() {
-		return telefoneUsers;
-	}
+	
 
 	public void setIdade(int idade) {
 		this.idade = idade;
@@ -192,14 +208,6 @@ public class UsuarioPessoa {
 		this.sobrenome = sobrenome;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getLogin() {
 		return login;
 	}
@@ -226,9 +234,8 @@ public class UsuarioPessoa {
 
 	@Override
 	public String toString() {
-		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email
-				+ ", login=" + login + ", senha=" + senha + ", idade=" + idade + ", telefoneUsers=" + telefoneUsers
-				+ "]";
+		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ",+  login=" + login
+				+ ", senha=" + senha + ", idade=" + idade + ", telefoneUsers=" +"]";
 	}
 
 }

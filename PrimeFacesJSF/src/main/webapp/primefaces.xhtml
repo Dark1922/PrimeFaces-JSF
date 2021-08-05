@@ -45,12 +45,6 @@
 				value="#{usuarioPessoaManagedBean.usuarioPessoa.sobrenome}"
 				required="true" requiredMessage="Informe o Sobrenome" />
 
-			<p:outputLabel>Email:</p:outputLabel>
-			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}"
-				required="true" requiredMessage="Informe o Email"
-				id="email" >
-				<p:watermark value="Infome um email de contato" for="email"/>
-				</p:inputText>
 
 			<p:outputLabel>Idade:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"
@@ -154,9 +148,6 @@
 				<h:outputText value="#{user.sobrenome}" />
 			</p:column>
 
-			<p:column style="width: 235px;" headerText="Email">
-				<h:outputText value="#{user.email}" />
-			</p:column>
 
 			<p:column headerText="Idade">
 				<h:outputText value="#{user.idade}" />

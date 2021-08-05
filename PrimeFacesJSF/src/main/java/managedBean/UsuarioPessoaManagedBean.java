@@ -50,7 +50,7 @@ public class UsuarioPessoaManagedBean {
 		barChatModel.setTitle("Gráfico de Salários");//titulo do barchatmodel
 	}
 
-	public String salvar() {
+	public String salvar() {	
 
 		daoGeneric.updat(usuarioPessoa);
 		list.add(usuarioPessoa); // adiciona pra lista o novo user

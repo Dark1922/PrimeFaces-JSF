@@ -8,7 +8,8 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>br.com.model.TelefoneUser</class>
 		<class>br.com.model.UsuarioPessoa</class>
-
+        <class>br.com.model.EmailUser</class>
+		
 		<properties>
 
 			<!-- Dados de conexão com o banco -->
