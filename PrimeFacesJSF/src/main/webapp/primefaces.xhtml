@@ -23,7 +23,7 @@
 	<h:form id="formPessoa">
 
 		<!--  showDetail="true" informação da mensagem qnd salvar etc sumary mostra a msg limpa-->
-		<p:messages showDetail="true" showSummary="false"
+		<p:growl showDetail="true" showSummary="false"
 			style="color: green; font-size: 19px; list-style-type: none; text-align:center;"
 			id="msg" />
 
@@ -37,7 +37,7 @@
 			<p:outputLabel>Nome:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.nome}"
 				required="true" requiredMessage="Informe o Nome" id="nome">
-			<p:watermark value="Informe o Nome da pessoa" for="nome" />
+				<p:watermark value="Informe o Nome da pessoa" for="nome" />
 			</p:inputText>
 
 			<p:outputLabel>Sobrenome:</p:outputLabel>
@@ -63,8 +63,8 @@
 
 			<p:outputLabel value="CEP:" />
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.cep}"
-				 id="cepuser">
-				 <p:watermark value="Informe um cep válido" for="cepuser" />
+				id="cepuser">
+				<p:watermark value="Informe um cep válido" for="cepuser" />
 				<f:ajax event="blur" execute="@this"
 					listener="#{usuarioPessoaManagedBean.pesquisaCep}"
 					render="logradouro complemento bairro localidade uf" />
@@ -98,9 +98,9 @@
 			<p:outputLabel value="Salário:" />
 			<p:inputText
 				value="#{usuarioPessoaManagedBean.usuarioPessoa.salario}"
-				id="salario"> 
-				<p:watermark value="Infome o Sálario"  for="salario"/>
-				</p:inputText>
+				id="salario">
+				<p:watermark value="Infome o Sálario" for="salario" />
+			</p:inputText>
 
 			<p:outputLabel>Login:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"
@@ -136,7 +136,8 @@
 			border="1" cellpadding="17">
 
 			<f:facet name="header">Lista de Usuários</f:facet>
-			<p:column style="width: 40px;" headerText="ID">
+
+			<p:column headerText="ID:" width="40">
 				<h:outputText value="#{user.id}" />
 			</p:column>
 
@@ -186,26 +187,40 @@
 						title="Telefone" width="32" height="32" />
 				</h:commandLink>
 			</p:column>
-			
+
 			<p:column headerText="E-mails">
-			<p:commandLink update=":formTable:dialogEmail" oncomplete="PF('dialogEmail').show()"> 
-			<f:setPropertyActionListener value="#{user}" target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-			<h:graphicImage value="/resources/img/email.png"
-						title="Email" width="32" height="32"  />
-			</p:commandLink>
-			
+				<p:commandLink update=":formTable:dialogEmail"
+					oncomplete="PF('dialogEmail').show()">
+					<f:setPropertyActionListener value="#{user}"
+						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
+					<h:graphicImage value="/resources/img/email.png" title="Email"
+						width="32" height="32" />
+				</p:commandLink>
+
 			</p:column>
 
 		</p:dataTable>
-		
-		<p:dialog header="E-mails" id="dialogEmail" position="center" modal="true" responsive="true" width="490" height="300" widgetVar="dialogEmail">
-		
+
+		<p:dialog header="E-mails" id="dialogEmail" position="center"
+			modal="true" responsive="true" widgetVar="dialogEmail"
+			resizable="false">
+
+			<p:panelGrid columns="3">
+				<p:outputLabel value="E-mail" />
+				<p:inputText value="#{usuarioPessoaManagedBean.emailUser.email}"
+					id="emailuseradd" />
+
+				<p:commandButton value="Adicionar"
+					actionListener="#{usuarioPessoaManagedBean.addEmail}"
+					update="emailuseradd" />
+
+			</p:panelGrid>
 		</p:dialog>
-		
+
 	</h:form>
 
 	<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"
-		style="margin-top:20px; padding:5px;" id="graficosalario" />
+		style="margin-top:20px; padding:6px;" id="graficosalario" />
 
 </h:body>
 </html>

@@ -9,12 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
 
 @Entity
 public class UsuarioPessoa {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -48,29 +52,30 @@ public class UsuarioPessoa {
 	private String ibge;
 
 	private String gia;
-	
-	// mapeado com usuarioPessoa do telefoneUser que está fazendo o ManyToOne, ele que vai trazer os telefones dos usuarios
-		 // eager trazer os telefone pra gente
+
+	// mapeado com usuarioPessoa do telefoneUser que está fazendo o ManyToOne, ele
+	// que vai trazer os telefones dos usuarios
+	// eager trazer os telefone pra gente
 	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<TelefoneUser> telefoneUsers = new ArrayList<TelefoneUser>(); //instncia o array list evitar null setter pointer exception
-	
-	//vai ser invocado só qnd chamar o get emails LAZY
-	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<TelefoneUser> telefoneUsers = new ArrayList<TelefoneUser>(); // instancia o array list evitar null
+																				// setter pointer exception
+
+	// vai ser invocado só qnd chamar o get emails LAZY
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<EmailUser> emails = new ArrayList<EmailUser>();
 
 	public void setEmails(List<EmailUser> emails) {
 		this.emails = emails;
 	}
-	
+
 	public List<EmailUser> getEmails() {
 		return emails;
 	}
-	
+
 	public List<TelefoneUser> getTelefoneUsers() {
 		return telefoneUsers;
 	}
-	
-	
+
 	public String getCep() {
 		return cep;
 	}
@@ -82,6 +87,7 @@ public class UsuarioPessoa {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getLogradouro() {
 		return logradouro;
 	}
@@ -158,13 +164,19 @@ public class UsuarioPessoa {
 		this.telefoneUsers = telefoneUsers;
 	}
 
-	// hash code e equal do id, pra remover objtos da tabela pra diferencias esses
-	// objetos
+	
+	
+	
+
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
+// hash code e equal do id, pra remover objtos da tabela pra diferencias esses objetos
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -177,22 +189,17 @@ public class UsuarioPessoa {
 		if (getClass() != obj.getClass())
 			return false;
 		UsuarioPessoa other = (UsuarioPessoa) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	
-
-	public void setIdade(int idade) {
-		this.idade = idade;
 	}
 
 	public int getIdade() {
 		return idade;
 	}
-
-
 
 	public String getNome() {
 		return nome;
@@ -236,8 +243,10 @@ public class UsuarioPessoa {
 
 	@Override
 	public String toString() {
-		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ",+  login=" + login
-				+ ", senha=" + senha + ", idade=" + idade + ", telefoneUsers=" +"]";
+		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", login=" + login
+				+ ", senha=" + senha + ", idade=" + idade + ", sexo=" + sexo + ", salario=" + salario + ", cep=" + cep
+				+ ", logradouro=" + logradouro + ", complemento=" + complemento + ", bairro=" + bairro + ", localidade="
+				+ localidade + ", uf=" + uf + ", telefoneUsers=" + telefoneUsers + ", emails=" + emails + "]";
 	}
 
 }

@@ -21,7 +21,9 @@ import org.primefaces.model.chart.ChartSeries;
 
 import com.google.gson.Gson;
 
+import br.com.dao.DaoEmail;
 import br.com.dao.DaoUsuario;
+import br.com.model.EmailUser;
 import br.com.model.UsuarioPessoa;
 
 @ManagedBean(name = "usuarioPessoaManagedBean")
@@ -30,11 +32,15 @@ public class UsuarioPessoaManagedBean {
 
 	private UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
 	private List<UsuarioPessoa> list = new ArrayList<UsuarioPessoa>();
+	
 	private DaoUsuario<UsuarioPessoa> daoGeneric = new DaoUsuario<UsuarioPessoa>();
 	// como ele está exetendo ao dao generic e dao usuario pode fazer isso
 	
 	//elemento do primefaces pra fazer gráfico de tabela
 	private BarChartModel barChatModel = new BarChartModel();
+	
+	private EmailUser emailUser = new EmailUser();
+	private DaoEmail<EmailUser> daoEmail = new DaoEmail<EmailUser>(); //entidade com os método do daogeneric
 
 	@PostConstruct
 	public void init() { // qnd iniciar a tela vai executar esse método de mostrar a tabela
@@ -164,5 +170,20 @@ public class UsuarioPessoaManagedBean {
 	public DaoUsuario<UsuarioPessoa> getDaoGeneric() {
 		return daoGeneric;
 	}
+	
+	public void setEmailUser(EmailUser emailUser) {
+		this.emailUser = emailUser;
+	}
+	
+	public EmailUser getEmailUser() {
+		return emailUser;
+	}
 
+	public void addEmail() {
+		emailUser.setUsuarioPessoa(usuarioPessoa); //seta o email pra pessoa
+        emailUser = daoEmail.updat(emailUser); //salva o email
+        usuarioPessoa.getEmails().add(emailUser); //adiciono na lista
+        emailUser = new EmailUser();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Resultado", "Salvo com Sucesso!"));
+	}
 }
