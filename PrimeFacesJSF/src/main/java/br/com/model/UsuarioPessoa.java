@@ -56,12 +56,12 @@ public class UsuarioPessoa {
 	// mapeado com usuarioPessoa do telefoneUser que está fazendo o ManyToOne, ele
 	// que vai trazer os telefones dos usuarios
 	// eager trazer os telefone pra gente
-	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<TelefoneUser> telefoneUsers = new ArrayList<TelefoneUser>(); // instancia o array list evitar null
 																				// setter pointer exception
 
 	// vai ser invocado só qnd chamar o get emails LAZY
-	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<EmailUser> emails = new ArrayList<EmailUser>();
 
 	public void setEmails(List<EmailUser> emails) {

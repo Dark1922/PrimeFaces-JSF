@@ -203,7 +203,7 @@
 
 		<p:dialog header="E-mails" id="dialogEmail" position="center"
 			modal="true" responsive="true" widgetVar="dialogEmail"
-			resizable="false">
+			resizable="false" width="600">
 
 			<p:panelGrid columns="3">
 				<p:outputLabel value="E-mail" />
@@ -212,15 +212,35 @@
 
 				<p:commandButton value="Adicionar"
 					actionListener="#{usuarioPessoaManagedBean.addEmail}"
-					update="emailuseradd" />
+					update="emailuseradd, dataTableEmail" />
 
 			</p:panelGrid>
+			
+			<p:dataTable value="#{usuarioPessoaManagedBean.usuarioPessoa.emails}" var="email" style="margin-top:13px;" id="dataTableEmail">
+			 
+			 <p:column headerText="ID:">
+			 <p:outputLabel value="#{email.id}"/>
+			 </p:column>
+			 
+			 <p:column headerText="E-mail:">
+			 <p:outputLabel value="#{email.email}"/>
+			 </p:column> 
+			 
+			<p:column headerText="Remover:">
+			<h:commandLink action="#{usuarioPessoaManagedBean.removeEmail}"
+					immediate="true" id="botaoremoveremail">
+					<f:param name="codigoemail" value="#{email.id}"/>
+					<f:ajax execute="botaoremoveremail" render="dataTableEmail, @form :formPessoa:msg" />
+					<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
+				</h:commandLink>
+			 </p:column>
+			</p:dataTable>
 		</p:dialog>
 
 	</h:form>
 
 	<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"
-		style="margin-top:20px; padding:6px;" id="graficosalario" />
+		style="margin-top:20px; padding:5px;" id="graficosalario" /> 
 
 </h:body>
 </html>
