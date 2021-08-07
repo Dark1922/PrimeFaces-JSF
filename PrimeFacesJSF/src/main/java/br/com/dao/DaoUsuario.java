@@ -18,16 +18,11 @@ public class DaoUsuario<E> extends  DaoGeneric<UsuarioPessoa> implements Seriali
     public void removerUsuario(UsuarioPessoa pessoa) throws Exception {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		entityManager.getTransaction().begin();
-    	String sqlDeleteFone = "delete from telefoneuser where usuariopessoa_id = " + pessoa.getId();
-        //método do DaoGeneric da conexão com o banco de dados  
-    	entityManager.createNativeQuery(sqlDeleteFone).executeUpdate();//faz atualização ou delete
-    	
-    	String sqlDeleteEmail = "delete from emailuser where usuariopessoa_id = " + pessoa.getId();
-    	entityManager.createNativeQuery(sqlDeleteEmail).executeUpdate();
+      
+    	entityManager.remove(pessoa); //remove a pesso inteira
     	
     	entityManager.getTransaction().commit();
     	
-    	super.deletePorId(pessoa);
     	
     }
 }
