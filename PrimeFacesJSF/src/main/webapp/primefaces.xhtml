@@ -162,7 +162,7 @@
 						immediate="true" id="botaoremover">
 						<f:setPropertyActionListener value="#{user}"
 							target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-						<f:ajax execute="botaoremover" render="@form :formPessoa:msg" />
+						<f:ajax execute="botaoremover" render="@form :formPessoa:msg :graficosalario" />
 						<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
 					</h:commandLink>
 				</center>

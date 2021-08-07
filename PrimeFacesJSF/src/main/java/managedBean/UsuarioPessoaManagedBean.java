@@ -41,16 +41,17 @@ public class UsuarioPessoaManagedBean implements Serializable {
 	
 	//elemento do primefaces pra fazer gráfico de tabela
 	private BarChartModel barChatModel = new BarChartModel();
-	
 	private EmailUser emailUser = new EmailUser();
 	private DaoEmail<EmailUser> daoEmail = new DaoEmail<EmailUser>(); //entidade com os método do daogeneric
 
 	@PostConstruct
 	public void init() { // qnd iniciar a tela vai executar esse método de mostrar a tabela
+		barChatModel = new BarChartModel(); //pra cada vez que criar / editar / remover atualizar certinho
+		
 		// vai consultar no banco apenas uma vez
 		list = daoGeneric.getListEntity(UsuarioPessoa.class);
-		
 		ChartSeries userSalario = new ChartSeries(); //grupo de fucionarios inicia 1 vez
+		
 		for (UsuarioPessoa usuarioPessoa : list) { //add o salario para o grupo
 			//motando a tabela do usuario pelo nome e selario com chartseries passando pro barchatmodel
 			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario()); //add salarios
@@ -63,6 +64,7 @@ public class UsuarioPessoaManagedBean implements Serializable {
 
 		daoGeneric.updat(usuarioPessoa);
 		list.add(usuarioPessoa); // adiciona pra lista o novo user
+		init(); //dps de salvar atualiza o gráfico
 		usuarioPessoa = new UsuarioPessoa();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Salvo com Sucesso!"));
@@ -80,6 +82,7 @@ public class UsuarioPessoaManagedBean implements Serializable {
 			daoGeneric.removerUsuario(usuarioPessoa);// método se usuario tiver telefone vai deletar ele dps a pessoa
 			list.remove(usuarioPessoa); // remove da lista esse objeto
 			usuarioPessoa = new UsuarioPessoa();
+			init();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Removido com Sucesso!"));
 
