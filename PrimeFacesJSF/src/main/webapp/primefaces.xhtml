@@ -27,7 +27,7 @@
 			style="color: green; font-size: 19px; list-style-type: none; text-align:center;"
 			id="msg" />
 
-		<p:panelGrid columns="2"
+		<h:panelGrid columns="2"
 			style="margin: 15px;  display:flex; justify-content: center; margin-top: 3%;">
 
 			<p:outputLabel>Id:</p:outputLabel>
@@ -53,7 +53,8 @@
 			<p:outputLabel>Sexo:</p:outputLabel>
 			<p:selectOneMenu
 				value="#{usuarioPessoaManagedBean.usuarioPessoa.sexo}"
-				required="true" requiredMessage="Selecione o Sexo">
+				required="true" requiredMessage="Selecione o Sexo"
+				style="width:191px;">
 
 				<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 				<f:selectItem itemValue="MASCULINO" itemLabel="Masculino" />
@@ -78,7 +79,7 @@
 
 
 			<p:outputLabel value="Bairro:" />
-			<h:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.bairro}"
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.bairro}"
 				id="bairro" />
 
 			<p:outputLabel value="Localidade:" />
@@ -96,11 +97,11 @@
 				id="uf" />
 
 			<p:outputLabel value="Salário:" />
-			<p:inputText
+			<p:inputNumber
 				value="#{usuarioPessoaManagedBean.usuarioPessoa.salario}"
 				id="salario">
 				<p:watermark value="Infome o Sálario" for="salario" />
-			</p:inputText>
+			</p:inputNumber>
 
 			<p:outputLabel>Login:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"
@@ -110,7 +111,7 @@
 			<p:password value="#{usuarioPessoaManagedBean.usuarioPessoa.senha}"
 				required="true" requiredMessage="Informe a  Senha" />
 
-		</p:panelGrid>
+		</h:panelGrid>
 
 		<div
 			style="display: flex; justify-content: center; margin-right: 160px">
@@ -141,106 +142,104 @@
 				<h:outputText value="#{user.id}" />
 			</p:column>
 
-			<p:column headerText="Nome">
+			<p:column headerText="Nome" width="600">
 				<h:outputText value="#{user.nome}" />
 			</p:column>
 
-			<p:column headerText="Sobrenome">
-				<h:outputText value="#{user.sobrenome}" />
-			</p:column>
-
-
-			<p:column headerText="Idade">
-				<h:outputText value="#{user.idade}" />
-			</p:column>
-
-			<p:column headerText="Login">
-				<h:outputText value="#{user.login}" />
-			</p:column>
-
-
-
 			<p:column headerText="Editar">
-				<h:commandLink immediate="true">
-					<f:setPropertyActionListener value="#{user}"
-						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-					<p:graphicImage value="/resources/img/editar.png" title="Editar" />
-				</h:commandLink>
+				<center>
+					<h:commandLink immediate="true">
+						<f:setPropertyActionListener value="#{user}"
+							target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
+						<p:graphicImage value="/resources/img/editar.png" title="Editar" />
+					</h:commandLink>
+				</center>
 			</p:column>
 
 			<p:column headerText="Excluir">
-				<h:commandLink action="#{usuarioPessoaManagedBean.remove}"
-					immediate="true" id="botaoremover">
-					<f:setPropertyActionListener value="#{user}"
-						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-					<f:ajax execute="botaoremover" render="@form :formPessoa:msg" />
-					<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
-				</h:commandLink>
+				<center>
+					<h:commandLink action="#{usuarioPessoaManagedBean.remove}"
+						immediate="true" id="botaoremover">
+						<f:setPropertyActionListener value="#{user}"
+							target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
+						<f:ajax execute="botaoremover" render="@form :formPessoa:msg" />
+						<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
+					</h:commandLink>
+				</center>
 			</p:column>
 
 
 			<p:column>
 				<f:facet name="header">Telefones</f:facet>
-				<h:commandLink action="phone.jsf" immediate="true" id="botaophone">
-					<f:param name="codigouser" value="#{user.id}" />
-					<p:graphicImage value="/resources/img/telefone-icon.png"
-						title="Telefone" width="32" height="32" />
-				</h:commandLink>
+				<center>
+					<h:commandLink action="phone.jsf" immediate="true" id="botaophone">
+						<f:param name="codigouser" value="#{user.id}" />
+						<p:graphicImage value="/resources/img/telefone-icon.png"
+							title="Telefone" width="32" height="32" />
+					</h:commandLink>
+				</center>
 			</p:column>
 
 			<p:column headerText="E-mails">
-				<p:commandLink update=":formTable:dialogEmail"
-					oncomplete="PF('dialogEmail').show()">
-					<f:setPropertyActionListener value="#{user}"
-						target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-					<h:graphicImage value="/resources/img/email.png" title="Email"
-						width="32" height="32" />
-				</p:commandLink>
-
+				<center>
+					<p:commandLink update=":formTable:dialogEmail"
+						oncomplete="PF('dialogEmail').show()">
+						<f:setPropertyActionListener value="#{user}"
+							target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
+						<h:graphicImage value="/resources/img/email.png" title="Email"
+							width="32" height="32" />
+					</p:commandLink>
+				</center>
 			</p:column>
 
 		</p:dataTable>
 
 		<p:dialog header="E-mails" id="dialogEmail" position="center"
-			modal="true"  widgetVar="dialogEmail"
-			resizable="false" width="600">
-			
-			<p:panelGrid columns="3">
+			modal="true" widgetVar="dialogEmail" resizable="false" width="600">
+
+			<h:panelGrid columns="3">
 				<p:outputLabel value="E-mail" />
 				<p:inputText value="#{usuarioPessoaManagedBean.emailUser.email}"
 					id="emailuseradd" />
 
-				<p:commandButton value="Adicionar"	
+				<p:commandButton value="Adicionar"
 					actionListener="#{usuarioPessoaManagedBean.addEmail}"
 					update="emailuseradd, dataTableEmail, :formPessoa:msg" />
 
-			</p:panelGrid>
-			
-			<p:dataTable value="#{usuarioPessoaManagedBean.usuarioPessoa.emails}" var="email" style="margin-top:13px;" id="dataTableEmail">
-			
-			
-			 <p:column headerText="ID:">
-			 <p:outputLabel value="#{email.id}"/> 
-			 </p:column>
-			 
-			 <p:column headerText="E-mail:">
-			 <p:outputLabel value="#{email.email}"/>
-			 </p:column> 
-			 
-			<p:column headerText="Remover:">
-			<h:commandLink id="botaoremoveremail" actionListener="#{usuarioPessoaManagedBean.removeEmail}">
-					<f:param name="codigoemail" value="#{email.id}"/>
-					<f:ajax execute="botaoremoveremail" render="dataTableEmail :formPessoa:msg"  />
-					<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
-				</h:commandLink>
-			 </p:column>
+			</h:panelGrid>
+
+			<p:dataTable value="#{usuarioPessoaManagedBean.usuarioPessoa.emails}"
+				var="email" style="margin-top:13px;" id="dataTableEmail">
+
+
+				<p:column headerText="ID:" width="30">
+					<p:outputLabel value="#{email.id}" />
+				</p:column>
+
+				<p:column headerText="E-mail:" width="">
+					<p:outputLabel value="#{email.email}" />
+				</p:column>
+
+				<p:column headerText="Remover:" width="78">
+				<center>
+					<h:commandLink id="botaoremoveremail"
+						actionListener="#{usuarioPessoaManagedBean.removeEmail}">
+						<f:param name="codigoemail" value="#{email.id}" />
+						<f:ajax execute="botaoremoveremail"
+							render="dataTableEmail :formPessoa:msg" />
+						<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
+					</h:commandLink>
+					</center>
+				</p:column>
 			</p:dataTable>
 		</p:dialog>
 
 	</h:form>
 
-	<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"
-		style="margin-top:20px; padding:5px;" id="graficosalario" /> 
-
+  <div style="margin-top:20px; padding:5px;">
+	<p:chart  type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"
+		 id="graficosalario" />
+		 
+		 </div>
 </h:body>
 </html>

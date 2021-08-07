@@ -28,18 +28,18 @@
 			style="color: green; font-size: 19px; list-style-type: none; text-align:center;"
 			id="msg" />
 
-		<p:panelGrid columns="2" style="margin: 20px">
-			<p:outputLabel value="Usuário" style="font-weight: bold; width: 20px;"  />
+		<h:panelGrid columns="2" style="margin: 20px">
+			<p:outputLabel value="Usuário:" style="font-weight: bold; width: 20px;"  />
 			<p:inputText value="#{telefoneManegedBean.user.nome}" readonly="true"/>
 			
-				<p:outputLabel value="DDD" style="font-weight: bold;" />
+				<p:outputLabel value="DDD:" style="font-weight: bold;" />
 			<p:inputText value="#{telefoneManegedBean.telefone.ddd}" required="true" requiredMessage="Informe o DDD" />
 			
-			<p:outputLabel value="Número" style="font-weight: bold;" />
+			<p:outputLabel value="Número:" style="font-weight: bold;" />
 			<p:inputText value="#{telefoneManegedBean.telefone.numero}" required="true" requiredMessage="Informe o Número" />
 			
 
-		</p:panelGrid>
+		</h:panelGrid>
 
 		<div
 			style="display: flex; justify-content: center; margin-right: 160px">
