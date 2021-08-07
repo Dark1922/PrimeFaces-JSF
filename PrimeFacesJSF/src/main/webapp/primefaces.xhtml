@@ -202,24 +202,25 @@
 		</p:dataTable>
 
 		<p:dialog header="E-mails" id="dialogEmail" position="center"
-			modal="true" responsive="true" widgetVar="dialogEmail"
+			modal="true"  widgetVar="dialogEmail"
 			resizable="false" width="600">
-
+			
 			<p:panelGrid columns="3">
 				<p:outputLabel value="E-mail" />
 				<p:inputText value="#{usuarioPessoaManagedBean.emailUser.email}"
 					id="emailuseradd" />
 
-				<p:commandButton value="Adicionar"
+				<p:commandButton value="Adicionar"	
 					actionListener="#{usuarioPessoaManagedBean.addEmail}"
-					update="emailuseradd, dataTableEmail" />
+					update="emailuseradd, dataTableEmail, :formPessoa:msg" />
 
 			</p:panelGrid>
 			
 			<p:dataTable value="#{usuarioPessoaManagedBean.usuarioPessoa.emails}" var="email" style="margin-top:13px;" id="dataTableEmail">
-			 
+			
+			
 			 <p:column headerText="ID:">
-			 <p:outputLabel value="#{email.id}"/>
+			 <p:outputLabel value="#{email.id}"/> 
 			 </p:column>
 			 
 			 <p:column headerText="E-mail:">
@@ -227,10 +228,9 @@
 			 </p:column> 
 			 
 			<p:column headerText="Remover:">
-			<h:commandLink action="#{usuarioPessoaManagedBean.removeEmail}"
-					immediate="true" id="botaoremoveremail">
+			<h:commandLink id="botaoremoveremail" actionListener="#{usuarioPessoaManagedBean.removeEmail}">
 					<f:param name="codigoemail" value="#{email.id}"/>
-					<f:ajax execute="botaoremoveremail" render="dataTableEmail, @form :formPessoa:msg" />
+					<f:ajax execute="botaoremoveremail" render="dataTableEmail :formPessoa:msg"  />
 					<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
 				</h:commandLink>
 			 </p:column>

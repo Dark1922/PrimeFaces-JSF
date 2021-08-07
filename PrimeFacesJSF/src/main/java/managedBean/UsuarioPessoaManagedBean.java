@@ -3,6 +3,7 @@ package managedBean;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -28,8 +29,10 @@ import br.com.model.UsuarioPessoa;
 
 @ManagedBean(name = "usuarioPessoaManagedBean")
 @ViewScoped // vai carregar o usuario na tela segurar os dados
-public class UsuarioPessoaManagedBean { 
+public class UsuarioPessoaManagedBean implements Serializable { 
 
+	private static final long serialVersionUID = 1L;
+	
 	private UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
 	private List<UsuarioPessoa> list = new ArrayList<UsuarioPessoa>();
 	
@@ -191,7 +194,7 @@ public class UsuarioPessoaManagedBean {
 		String codigoemail = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codigoemail");
 		EmailUser remover = new EmailUser();
 		remover.setId(Long.parseLong(codigoemail)); //codigoemail = id ent vai setar o id pra ser removido abaixo
-		daoEmail.deletePorId(remover);
+		daoEmail.deletePorId(remover); 
 		usuarioPessoa.getEmails().remove(remover);//remover tb da lista pega busca de lista de emails
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Resultado", "Removido com Sucesso!"));
 	}

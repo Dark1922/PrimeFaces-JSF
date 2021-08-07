@@ -21,6 +21,10 @@ public class DaoUsuario<E> extends  DaoGeneric<UsuarioPessoa> implements Seriali
     	String sqlDeleteFone = "delete from telefoneuser where usuariopessoa_id = " + pessoa.getId();
         //método do DaoGeneric da conexão com o banco de dados  
     	entityManager.createNativeQuery(sqlDeleteFone).executeUpdate();//faz atualização ou delete
+    	
+    	String sqlDeleteEmail = "delete from emailuser where usuariopessoa_id = " + pessoa.getId();
+    	entityManager.createNativeQuery(sqlDeleteEmail).executeUpdate();
+    	
     	entityManager.getTransaction().commit();
     	
     	super.deletePorId(pessoa);
