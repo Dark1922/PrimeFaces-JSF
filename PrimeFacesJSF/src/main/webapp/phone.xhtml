@@ -29,22 +29,27 @@
 			id="msg" />
 
 		<h:panelGrid columns="2" style="margin: 20px">
-			<p:outputLabel value="Usuário:" style="font-weight: bold; width: 20px;"  />
+			<p:outputLabel value="Usuário:"
+				style="font-weight: bold; width: 20px;" />
 			<p:inputText value="#{telefoneManegedBean.user.nome}" readonly="true" />
-			
-				<p:outputLabel value="Tipo:" style="font-weight: bold;" />
-			<p:selectOneMenu value="#{telefoneManegedBean.telefone.ddd}" required="true" requiredMessage="Informe o Tipo de Telefone" style="width:191px; margin-top:5px" > 
-			<f:selectItem itemValue="NAO-INFORMADO" itemLabel="Selecione" noSelectionOption="true" />
-			<f:selectItem itemValue="RECADO" itemLabel="Recado"/>
-			<f:selectItem itemValue="TRABALHO" itemLabel="Trabalho"/>
-			<f:selectItem itemValue="CASA" itemLabel="Casa"/>
+
+			<p:outputLabel value="Tipo:" style="font-weight: bold;" />
+			<p:selectOneMenu value="#{telefoneManegedBean.telefone.ddd}"
+				required="true" requiredMessage="Informe o Tipo de Telefone"
+				style="width:191px; margin-top:5px">
+				<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+				<f:selectItem itemValue="RECADO" itemLabel="Recado" />
+				<f:selectItem itemValue="TRABALHO" itemLabel="Trabalho" />
+				<f:selectItem itemValue="CASA" itemLabel="Casa" />
 			</p:selectOneMenu>
-			
+
 			<p:outputLabel value="Número:" style="font-weight: bold;" />
-			<p:inputMask value="#{telefoneManegedBean.telefone.numero}" required="true" requiredMessage="Informe um Número" mask="(99) 9 9999-9999" id="numerotel">
-			<p:watermark value="Informe um Número" for="numerotel" />
+			<p:inputMask value="#{telefoneManegedBean.telefone.numero}"
+				required="true" requiredMessage="Informe um Número"
+				mask="(99) 9 9999-9999" id="numerotel">
+				<p:watermark value="Informe um Número" for="numerotel" />
 			</p:inputMask>
-			
+
 
 		</h:panelGrid>
 
@@ -55,7 +60,7 @@
 				action="#{telefoneManegedBean.salvar}" ajax="false" />
 
 			<p:commandButton value="Novo" immediate="true"
-				action="#{telefoneManegedBean.novo}"> 
+				action="#{telefoneManegedBean.novo}">
 				<f:ajax execute="@this" render="@form" />
 			</p:commandButton>
 		</div>
@@ -65,26 +70,26 @@
 	<h:form id="formTelefones"
 		style="display:grid; justify-content: center; margin-top: 40px;">
 
-		<p:dataTable value="#{telefoneManegedBean.user.telefoneUsers}" var="fone"
-			 style="text-align:center;"  id="tabelfone">
+		<p:dataTable value="#{telefoneManegedBean.user.telefoneUsers}"
+			var="fone" style="text-align:center;" id="tabelfone">
 
 
-            <f:facet name="header">Lista de Telefones</f:facet>
+			<f:facet name="header">Lista de Telefones</f:facet>
 
-				
-				<p:column headerText="ID" width="40">
+
+			<p:column headerText="ID" width="40">
 				<h:outputText value="#{fone.id}" />
 			</p:column>
-			
+
 			<p:column headerText="Tipo" width="200">
 				<h:outputText value="#{fone.ddd}" />
 			</p:column>
-			
+
 			<p:column headerText="Número" width="500">
 				<h:outputText value="#{fone.numero}" />
 			</p:column>
-			
-			
+
+
 
 			<p:column width="80">
 				<f:facet name="header">Excluir</f:facet>

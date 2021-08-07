@@ -110,6 +110,12 @@
 			<p:outputLabel>Senha:</p:outputLabel>
 			<p:password value="#{usuarioPessoaManagedBean.usuarioPessoa.senha}"
 				required="true" requiredMessage="Informe a  Senha" />
+				
+				<p:outputLabel>Foto:</p:outputLabel>
+				<p:fileUpload mode="advanced" label="Adicionar" auto="true" update="imagem" fileUploadListener="#{usuarioPessoaManagedBean.upload}"/>
+              
+                <p:outputLabel>Imagem:</p:outputLabel>
+                <h:graphicImage id="imagem" value="#{usuarioPessoaManagedBean.usuarioPessoa.imagem}" width="120" height="120"/>
 
 		</h:panelGrid>
 
@@ -128,9 +134,20 @@
 	</h:form>
 
 
+     <form>
+
+    <p:panel header="Consultar usuário" style="margin-top: 40px;">
+    
+    <h:panelGrid columns="3">
+	   	  <h:outputLabel value="Nome:"/>
+	   	  <p:inputText value="#{usuarioPessoaManagedBean.campoPesquisa}"/>
+	   	  <p:commandButton value="Buscar" actionListener="#{usuarioPessoaManagedBean.pesquisar}" update="formTable1, :graficosalario"/>
+	   </h:panelGrid>
+	   </p:panel>
+     </form>
 
 
-	<h:form id="formTable"
+	<h:form id="formTable1"
 		style="display:grid; justify-content: center; margin-top: 37px; ">
 
 		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
@@ -144,6 +161,15 @@
 
 			<p:column headerText="Nome" width="600">
 				<h:outputText value="#{user.nome}" />
+			</p:column>
+			
+			<p:column headerText="Imagem">
+			    <center>
+			    <h:commandLink immediate="true" actionListener="#{usuarioPessoaManagedBean.dowload}">
+			    <f:param name="fileDowloadId" value="#{user.id}"/>
+			    <p:graphicImage value="/resources/img/baixar.png" title="Baixar-Imagem-Usuario" width="32" height="32" />
+			    </h:commandLink>
+			    </center>
 			</p:column>
 
 			<p:column headerText="Editar">
@@ -182,7 +208,7 @@
 
 			<p:column headerText="E-mails">
 				<center>
-					<p:commandLink update=":formTable:dialogEmail"
+					<p:commandLink update=":formTable1:dialogEmail"
 						oncomplete="PF('dialogEmail').show()">
 						<f:setPropertyActionListener value="#{user}"
 							target="#{usuarioPessoaManagedBean.usuarioPessoa}" />

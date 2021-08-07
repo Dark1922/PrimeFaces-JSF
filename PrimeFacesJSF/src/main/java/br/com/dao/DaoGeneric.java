@@ -132,5 +132,11 @@ public class DaoGeneric<E> implements Serializable { // E de entidade pode ser q
 		E e = (E) entityManager.createQuery("from " + entidade.getSimpleName() + " where id = " + id).getSingleResult();
 		return e;
 	}
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
 	
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 }

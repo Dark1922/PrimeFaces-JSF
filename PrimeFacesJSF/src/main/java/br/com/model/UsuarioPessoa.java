@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -34,6 +35,9 @@ public class UsuarioPessoa {
 	private int idade;
 	private String sexo;
 	private Double salario;
+	
+	@Column(columnDefinition = "text") //pra pode criar salvar imagem
+	private String imagem;
 
 	private String cep;
 
@@ -248,5 +252,12 @@ public class UsuarioPessoa {
 				+ ", logradouro=" + logradouro + ", complemento=" + complemento + ", bairro=" + bairro + ", localidade="
 				+ localidade + ", uf=" + uf + ", telefoneUsers=" + telefoneUsers + ", emails=" + emails + "]";
 	}
-
+ 
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
+	
+	public String getImagem() {
+		return imagem;
+	}
 }

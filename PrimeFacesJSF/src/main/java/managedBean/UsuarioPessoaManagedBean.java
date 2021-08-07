@@ -1,6 +1,7 @@
 package managedBean;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -16,7 +18,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
 
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 
@@ -29,51 +34,71 @@ import br.com.model.UsuarioPessoa;
 
 @ManagedBean(name = "usuarioPessoaManagedBean")
 @ViewScoped // vai carregar o usuario na tela segurar os dados
-public class UsuarioPessoaManagedBean implements Serializable { 
+public class UsuarioPessoaManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
 	private List<UsuarioPessoa> list = new ArrayList<UsuarioPessoa>();
-	
+
 	private DaoUsuario<UsuarioPessoa> daoGeneric = new DaoUsuario<UsuarioPessoa>();
 	// como ele está exetendo ao dao generic e dao usuario pode fazer isso
-	
-	//elemento do primefaces pra fazer gráfico de tabela
+
+	// elemento do primefaces pra fazer gráfico de tabela
 	private BarChartModel barChatModel = new BarChartModel();
 	private EmailUser emailUser = new EmailUser();
-	private DaoEmail<EmailUser> daoEmail = new DaoEmail<EmailUser>(); //entidade com os método do daogeneric
+	private DaoEmail<EmailUser> daoEmail = new DaoEmail<EmailUser>(); // entidade com os método do daogeneric
+	private String campoPesquisa;
 
 	@PostConstruct
 	public void init() { // qnd iniciar a tela vai executar esse método de mostrar a tabela
-		barChatModel = new BarChartModel(); //pra cada vez que criar / editar / remover atualizar certinho
-		
 		// vai consultar no banco apenas uma vez
 		list = daoGeneric.getListEntity(UsuarioPessoa.class);
-		ChartSeries userSalario = new ChartSeries(); //grupo de fucionarios inicia 1 vez
-		
-		for (UsuarioPessoa usuarioPessoa : list) { //add o salario para o grupo
-			//motando a tabela do usuario pelo nome e selario com chartseries passando pro barchatmodel
-			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario()); //add salarios
-		}
-		barChatModel.addSeries(userSalario);//adiciona o grupo no barmodel
-		barChatModel.setTitle("Gráfico de Salários");//titulo do barchatmodel
+
+		montarGrafico(); // mostra o grafico pela lista de pessoas cadastradas com seus salarios
 	}
 
-	public String salvar() {	
+	private void montarGrafico() {
+		barChatModel = new BarChartModel();
+
+		ChartSeries userSalario = new ChartSeries();
+
+		for (UsuarioPessoa usuarioPessoa : list) {
+
+			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario());
+		}
+		barChatModel.addSeries(userSalario);
+		barChatModel.setTitle("Gráfico de Salários");
+	}
+
+	public String salvar() {
 
 		daoGeneric.updat(usuarioPessoa);
 		list.add(usuarioPessoa); // adiciona pra lista o novo user
-		init(); //dps de salvar atualiza o gráfico
+		init(); // dps de salvar atualiza o gráfico
 		usuarioPessoa = new UsuarioPessoa();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Salvo com Sucesso!"));
-		return ""; 
+		return "";
 	}
 
 	public String novo() {
 		usuarioPessoa = new UsuarioPessoa();
 		return "";
+	}
+
+	public void pesquisar() {
+		list = daoGeneric.pesquisar(campoPesquisa);
+		montarGrafico();
+
+	}
+
+	public void upload(FileUploadEvent image) { // primefaces
+
+		// base 64 pra jogar na tela e salvar no banco tb
+		String imagem = "data:imagem/png;base64," + DatatypeConverter.printBase64Binary(image.getFile().getContents());
+		usuarioPessoa.setImagem(imagem); //seta a imagem
+
 	}
 
 	public String remove() {
@@ -97,8 +122,7 @@ public class UsuarioPessoaManagedBean implements Serializable {
 		return "";
 
 	}
-	
-	
+
 	public void pesquisaCep(AjaxBehaviorEvent event) {// tem que tar declarado aqui pro jsf entender o listener
 
 		try {
@@ -115,10 +139,10 @@ public class UsuarioPessoaManagedBean implements Serializable {
 																// dados / retorno
 			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8")); // faz a leitura desse retorno
 
-			String cep = ""; //váriavel auxiliar
+			String cep = ""; // váriavel auxiliar
 			StringBuilder jsonCep = new StringBuilder();
 			while ((cep = br.readLine()) != null) { // vai varrer as linha eqnt for diferente de null
-				jsonCep.append(cep); //vai adicionando oq tiver no cep logadouro etcq
+				jsonCep.append(cep); // vai adicionando oq tiver no cep logadouro etcq
 			}
 			// vai jogar os dados pro objeto logadouro etc os dados que vem com cep pelos
 			// objetos criado em Pessoa
@@ -139,8 +163,8 @@ public class UsuarioPessoaManagedBean implements Serializable {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Informação: ", "Cep Inválido"));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Cep Inválido"));
 		}
 	}
 
@@ -156,49 +180,95 @@ public class UsuarioPessoaManagedBean implements Serializable {
 	public void setUsuarioPessoa(UsuarioPessoa usuarioPessoa) {
 		this.usuarioPessoa = usuarioPessoa;
 	}
-	
+
 	public void setBarChatModel(BarChartModel barChatModel) {
 		this.barChatModel = barChatModel;
 	}
-	
+
 	public BarChartModel getBarChatModel() {
 		return barChatModel;
 	}
-	
+
 	public void setDaoGeneric(DaoUsuario<UsuarioPessoa> daoGeneric) {
 		this.daoGeneric = daoGeneric;
 	}
-	
+
 	public void setList(List<UsuarioPessoa> list) {
 		this.list = list;
 	}
-	
+
 	public DaoUsuario<UsuarioPessoa> getDaoGeneric() {
 		return daoGeneric;
 	}
-	
+
 	public void setEmailUser(EmailUser emailUser) {
 		this.emailUser = emailUser;
 	}
-	
+
 	public EmailUser getEmailUser() {
 		return emailUser;
 	}
 
 	public void addEmail() {
-		emailUser.setUsuarioPessoa(usuarioPessoa); //seta o email pra pessoa
-        emailUser = daoEmail.updat(emailUser); //salva o email
-        usuarioPessoa.getEmails().add(emailUser); //adiciono na lista
-        emailUser = new EmailUser();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Resultado", "Salvo com Sucesso!"));
+		emailUser.setUsuarioPessoa(usuarioPessoa); // seta o email pra pessoa
+		emailUser = daoEmail.updat(emailUser); // salva o email
+		usuarioPessoa.getEmails().add(emailUser); // adiciono na lista
+		emailUser = new EmailUser();
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Resultado", "Salvo com Sucesso!"));
+	}
+
+	public void removeEmail() throws Exception {
+		String codigoemail = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+				.get("codigoemail");
+		EmailUser remover = new EmailUser();
+		remover.setId(Long.parseLong(codigoemail)); // codigoemail = id ent vai setar o id pra ser removido abaixo
+		daoEmail.deletePorId(remover);
+		usuarioPessoa.getEmails().remove(remover);// remover tb da lista pega busca de lista de emails
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Resultado", "Removido com Sucesso!"));
 	}
 	
-	public void removeEmail() throws Exception {
-		String codigoemail = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codigoemail");
-		EmailUser remover = new EmailUser();
-		remover.setId(Long.parseLong(codigoemail)); //codigoemail = id ent vai setar o id pra ser removido abaixo
-		daoEmail.deletePorId(remover); 
-		usuarioPessoa.getEmails().remove(remover);//remover tb da lista pega busca de lista de emails
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Resultado", "Removido com Sucesso!"));
+	public void dowload() throws IOException {
+		//vai ter todos atributos que foram enviados da nossa requisição
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		
+		//vai ter o id da pessoa passado pelo value ná página xhtml pq pega qlq dado da requisição que ja foi passado
+		String fileDowloadID = params.get("fileDowloadId");
+		
+		//nossa id ta em string ai faz um parse long e a classe da consulta do banco de dados da pessoa
+		UsuarioPessoa pessoa = daoGeneric.pesquisar(Long.parseLong(fileDowloadID), UsuarioPessoa.class);
+		
+		//imagem tá dentro do objeto pessoa que acabou de pesquisar
+		byte[] imagem = new org.apache.tomcat.util.codec.binary.Base64().decodeBase64(pessoa.getImagem().split("\\,")[1]);
+		
+		//como tá generico tem que fazer a conversão  (HttpServletResponse)
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		
+		//attchament baixa direto n vai pra outra tela e o nome que quer
+		response.addHeader("Content-Disposition", "attachment; filename=dowload.png");
+		
+		response.setContentType("application/octet-stream");
+		response.setContentLength(imagem.length);
+		response.getOutputStream().write(imagem);
+		response.getOutputStream().flush(); //manda tudo pra resposta
+		FacesContext.getCurrentInstance().responseComplete(); //resposta completa
+		
+	}
+
+	public void setCampoPesquisa(String campoPesquisa) {
+		this.campoPesquisa = campoPesquisa;
+	}
+
+	public String getCampoPesquisa() {
+		return campoPesquisa;
+	}
+
+	public void setDaoEmail(DaoEmail<EmailUser> daoEmail) {
+		this.daoEmail = daoEmail;
+	}
+
+	public DaoEmail<EmailUser> getDaoEmail() {
+		return daoEmail;
 	}
 }
