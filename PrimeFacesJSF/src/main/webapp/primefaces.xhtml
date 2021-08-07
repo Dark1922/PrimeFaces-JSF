@@ -63,13 +63,13 @@
 			</p:selectOneMenu>
 
 			<p:outputLabel value="CEP:" />
-			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.cep}"
-				id="cepuser">
+			<p:inputMask value="#{usuarioPessoaManagedBean.usuarioPessoa.cep}"
+				id="cepuser" mask="99999-999" required="true" requiredMessage="Informe um Cep"> 
 				<p:watermark value="Informe um cep válido" for="cepuser" />
 				<f:ajax event="blur" execute="@this"
 					listener="#{usuarioPessoaManagedBean.pesquisaCep}"
 					render="logradouro complemento bairro localidade uf" />
-			</p:inputText>
+			</p:inputMask>
 
 			<p:outputLabel value="Logadouro:" />
 			<p:inputText
@@ -220,7 +220,7 @@
 					<p:outputLabel value="#{email.email}" />
 				</p:column>
 
-				<p:column headerText="Remover:" width="78">
+				<p:column headerText="Remover:" width="80">
 				<center>
 					<h:commandLink id="botaoremoveremail"
 						actionListener="#{usuarioPessoaManagedBean.removeEmail}">
@@ -237,9 +237,10 @@
 	</h:form>
 
   <div style="margin-top:20px; padding:5px;">
+  
 	<p:chart  type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"
 		 id="graficosalario" />
 		 
-		 </div>
+ </div>
 </h:body>
 </html>
