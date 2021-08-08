@@ -3,8 +3,7 @@
 
 ## 🔖 Layout 
 
-![primefaces](https://user-images.githubusercontent.com/48605830/128640800-e6a1c72e-09e2-4806-86e4-00148ab11f5d.gif)
-
+![pfmcs (1)](https://user-images.githubusercontent.com/48605830/128643096-7e20ea44-f8af-4952-b03d-f14b1e329b2d.gif)
 
 
 
