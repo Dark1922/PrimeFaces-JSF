@@ -64,7 +64,8 @@
 
 			<p:outputLabel value="CEP:" />
 			<p:inputMask value="#{usuarioPessoaManagedBean.usuarioPessoa.cep}"
-				id="cepuser" mask="99999-999" required="true" requiredMessage="Informe um Cep"> 
+				id="cepuser" mask="99999-999" required="true"
+				requiredMessage="Informe um Cep">
 				<p:watermark value="Informe um cep válido" for="cepuser" />
 				<f:ajax event="blur" execute="@this"
 					listener="#{usuarioPessoaManagedBean.pesquisaCep}"
@@ -110,12 +111,16 @@
 			<p:outputLabel>Senha:</p:outputLabel>
 			<p:password value="#{usuarioPessoaManagedBean.usuarioPessoa.senha}"
 				required="true" requiredMessage="Informe a  Senha" />
-				
-				<p:outputLabel>Foto:</p:outputLabel>
-				<p:fileUpload mode="advanced" label="Adicionar" auto="true" update="imagem" fileUploadListener="#{usuarioPessoaManagedBean.upload}"/>
-              
-                <p:outputLabel>Imagem:</p:outputLabel>
-                <h:graphicImage id="imagem" value="#{usuarioPessoaManagedBean.usuarioPessoa.imagem}" width="120" height="120"/>
+
+			<p:outputLabel>Foto:</p:outputLabel>
+			<p:fileUpload mode="advanced" label="Adicionar" auto="true"
+				update="imagem"
+				fileUploadListener="#{usuarioPessoaManagedBean.upload}" />
+
+			<p:outputLabel>Imagem:</p:outputLabel>
+			<h:graphicImage id="imagem"
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.imagem}" width="120"
+				height="120" />
 
 		</h:panelGrid>
 
@@ -134,24 +139,25 @@
 	</h:form>
 
 
-     <form>
+	<form>
 
-    <p:panel header="Consultar usuário" style="margin-top: 40px;">
-    
-    <h:panelGrid columns="3">
+		 <p:panel header="Consultar usuário" style="margin-top:20px">
+	 
+	   <h:panelGrid columns="3" >
 	   	  <h:outputLabel value="Nome:"/>
 	   	  <p:inputText value="#{usuarioPessoaManagedBean.campoPesquisa}"/>
-	   	  <p:commandButton value="Buscar" actionListener="#{usuarioPessoaManagedBean.pesquisar}" update="formTable1, :graficosalario"/>
+	   	  <p:commandButton value="Buscar" actionListener="#{usuarioPessoaManagedBean.pesquisar}" update="formTable1 :graficosalario"/>
 	   </h:panelGrid>
-	   </p:panel>
-     </form>
+	 </p:panel>
+	</form>
 
 
 	<h:form id="formTable1"
-		style="display:grid; justify-content: center; margin-top: 37px; ">
+		style="display:grid; justify-content: center; margin-top: 37px;">
 
-		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
-			border="1" cellpadding="17">
+		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user" rows="5" paginator="true" lazy="true"
+		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {NextPageLink} " >
+		
 
 			<f:facet name="header">Lista de Usuários</f:facet>
 
@@ -162,14 +168,16 @@
 			<p:column headerText="Nome" width="600">
 				<h:outputText value="#{user.nome}" />
 			</p:column>
-			
+
 			<p:column headerText="Imagem">
-			    <center>
-			    <h:commandLink immediate="true" actionListener="#{usuarioPessoaManagedBean.dowload}">
-			    <f:param name="fileDowloadId" value="#{user.id}"/>
-			    <p:graphicImage value="/resources/img/baixar.png" title="Baixar-Imagem-Usuario" width="32" height="32" />
-			    </h:commandLink>
-			    </center>
+				<center>
+					<h:commandLink immediate="true"
+						actionListener="#{usuarioPessoaManagedBean.dowload}">
+						<f:param name="fileDowloadId" value="#{user.id}" />
+						<p:graphicImage value="/resources/img/baixar.png"
+							title="Baixar-Imagem-Usuario" width="32" height="32" />
+					</h:commandLink>
+				</center>
 			</p:column>
 
 			<p:column headerText="Editar">
@@ -188,7 +196,8 @@
 						immediate="true" id="botaoremover">
 						<f:setPropertyActionListener value="#{user}"
 							target="#{usuarioPessoaManagedBean.usuarioPessoa}" />
-						<f:ajax execute="botaoremover" render="@form :formPessoa:msg :graficosalario" />
+						<f:ajax execute="botaoremover"
+							render="@form :formPessoa:msg :graficosalario" />
 						<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
 					</h:commandLink>
 				</center>
@@ -218,7 +227,7 @@
 				</center>
 			</p:column>
 
-		</p:dataTable>
+		</p:dataTable >
 
 		<p:dialog header="E-mails" id="dialogEmail" position="center"
 			modal="true" widgetVar="dialogEmail" resizable="false" width="600">
@@ -247,14 +256,15 @@
 				</p:column>
 
 				<p:column headerText="Remover:" width="80">
-				<center>
-					<h:commandLink id="botaoremoveremail"
-						actionListener="#{usuarioPessoaManagedBean.removeEmail}">
-						<f:param name="codigoemail" value="#{email.id}" />
-						<f:ajax execute="botaoremoveremail"
-							render="dataTableEmail :formPessoa:msg" />
-						<p:graphicImage value="/resources/img/excluir.png" title="Excluir" />
-					</h:commandLink>
+					<center>
+						<h:commandLink id="botaoremoveremail"
+							actionListener="#{usuarioPessoaManagedBean.removeEmail}">
+							<f:param name="codigoemail" value="#{email.id}" />
+							<f:ajax execute="botaoremoveremail"
+								render="dataTableEmail :formPessoa:msg" />
+							<p:graphicImage value="/resources/img/excluir.png"
+								title="Excluir" />
+						</h:commandLink>
 					</center>
 				</p:column>
 			</p:dataTable>
@@ -262,11 +272,11 @@
 
 	</h:form>
 
-  <div style="margin-top:20px; padding:5px;">
-  
-	<p:chart  type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"
-		 id="graficosalario" />
-		 
- </div>
+	<div style="margin-top: 20px; padding: 5px;">
+
+		<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"
+			id="graficosalario" />
+
+	</div>
 </h:body>
 </html>

@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +27,7 @@ import com.google.gson.Gson;
 
 import br.com.dao.DaoEmail;
 import br.com.dao.DaoUsuario;
+import br.com.datatablelazy.LazyDataTableModelUserPessoa;
 import br.com.model.EmailUser;
 import br.com.model.UsuarioPessoa;
 
@@ -39,7 +38,9 @@ public class UsuarioPessoaManagedBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
-	private List<UsuarioPessoa> list = new ArrayList<UsuarioPessoa>();
+	
+	//vai carregar paginando
+	private LazyDataTableModelUserPessoa<UsuarioPessoa> list = new LazyDataTableModelUserPessoa<UsuarioPessoa>();
 
 	private DaoUsuario<UsuarioPessoa> daoGeneric = new DaoUsuario<UsuarioPessoa>();
 	// como ele está exetendo ao dao generic e dao usuario pode fazer isso
@@ -49,11 +50,12 @@ public class UsuarioPessoaManagedBean implements Serializable {
 	private EmailUser emailUser = new EmailUser();
 	private DaoEmail<EmailUser> daoEmail = new DaoEmail<EmailUser>(); // entidade com os método do daogeneric
 	private String campoPesquisa;
+	
 
-	@PostConstruct
+	@PostConstruct //inicia os valores da tela
 	public void init() { // qnd iniciar a tela vai executar esse método de mostrar a tabela
-		// vai consultar no banco apenas uma vez
-		list = daoGeneric.getListEntity(UsuarioPessoa.class);
+		
+		list.load(0, 5, null, null, null);//inicia os objetos de 0 a 5 no começo registros
 
 		montarGrafico(); // mostra o grafico pela lista de pessoas cadastradas com seus salarios
 	}
@@ -72,13 +74,15 @@ public class UsuarioPessoaManagedBean implements Serializable {
 	}
 
 	public String salvar() {
-
+		
+    //dentro da nossa lista tem outra list com o adicionar lista do usuario dentro do lazy
 		daoGeneric.updat(usuarioPessoa);
-		list.add(usuarioPessoa); // adiciona pra lista o novo user
+		list.list.add(usuarioPessoa); // adiciona pra lista o novo user
 		init(); // dps de salvar atualiza o gráfico
 		usuarioPessoa = new UsuarioPessoa();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Salvo com Sucesso!"));
+		
 		return "";
 	}
 
@@ -88,7 +92,7 @@ public class UsuarioPessoaManagedBean implements Serializable {
 	}
 
 	public void pesquisar() {
-		list = daoGeneric.pesquisar(campoPesquisa);
+		list.pesquisar(campoPesquisa);
 		montarGrafico();
 
 	}
@@ -105,7 +109,7 @@ public class UsuarioPessoaManagedBean implements Serializable {
 
 		try {
 			daoGeneric.removerUsuario(usuarioPessoa);// método se usuario tiver telefone vai deletar ele dps a pessoa
-			list.remove(usuarioPessoa); // remove da lista esse objeto
+			list.list.remove(usuarioPessoa); // remove da lista esse objeto
 			usuarioPessoa = new UsuarioPessoa();
 			init();
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -169,7 +173,8 @@ public class UsuarioPessoaManagedBean implements Serializable {
 	}
 
 	// get da nossa lista
-	public List<UsuarioPessoa> getList() {
+	public LazyDataTableModelUserPessoa<UsuarioPessoa> getList() {
+		montarGrafico();
 		return list;
 	}
 
@@ -193,7 +198,7 @@ public class UsuarioPessoaManagedBean implements Serializable {
 		this.daoGeneric = daoGeneric;
 	}
 
-	public void setList(List<UsuarioPessoa> list) {
+	public void setList(LazyDataTableModelUserPessoa<UsuarioPessoa> list) {
 		this.list = list;
 	}
 
