@@ -142,9 +142,9 @@
 	<h:form>
 			<p:panel header="Consultar Usuário" style="margin-top:20px;">
 				<h:panelGrid columns="3">
-					<h:outputLabel value="Nome:"/>
-					<p:inputText value="#{usuarioPessoaBean.campoPesquisa}"/>
-					<p:commandButton value="Buscar" actionListener="#{usuarioPessoaBean.pesquisar}" update="formTable1 :graficoSalario" paginatorPosition="bottom"	/>
+					<h:outputLabel value="Nome:"/> 
+					<p:inputText value="#{usuarioPessoaManagedBean.campoPesquisa}"/>
+					<p:commandButton value="Buscar" actionListener="#{usuarioPessoaManagedBean.pesquisar}" update="formTable1 :graficoSalario" />
 				</h:panelGrid>
 			</p:panel>
 		</h:form>
@@ -153,11 +153,11 @@
 	<h:form id="formTable1"
 		style="display:grid; justify-content: center; margin-top: 37px;">
 
-		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user" rows="5" paginator="true" lazy="true"
-		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {LastPageLink}" >
+		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user" rows="5"  lazy="true"
+		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {LastPageLink}"   paginator="true" paginatorPosition="bottom">
 		
 
-			<f:facet name="header">Lista de Usuários</f:facet>
+			<f:facet name="header" >Lista de Usuários</f:facet>
 
 			<p:column headerText="ID:" width="40">
 				<h:outputText value="#{user.id}" />
@@ -265,7 +265,7 @@
 						</h:commandLink>
 					</center>
 				</p:column>
-			</p:dataTable>
+			</p:dataTable >
 		</p:dialog>
 
 	</h:form>
