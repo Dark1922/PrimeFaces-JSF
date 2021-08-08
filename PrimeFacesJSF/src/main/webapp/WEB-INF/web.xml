@@ -3,7 +3,7 @@
   <display-name>primefacesjsp</display-name>
    
   <welcome-file-list>
-  <welcome-file>index.jsf</welcome-file> <!-- página principal -->
+  <welcome-file>primefaces.jsf</welcome-file> <!-- página principal -->
   </welcome-file-list>
   
  

@@ -25,6 +25,7 @@ public class LazyDataTableModelUserPessoa<T> extends LazyDataModel<UsuarioPessoa
 	
 	private String sql = " from UsuarioPessoa "; //sql padrão
 
+	@SuppressWarnings("unchecked")
 	@Override           //ordenar os dados , pagina 1 a 5 
 	public List<UsuarioPessoa> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 			Map<String, Object> filters) {
@@ -54,7 +55,7 @@ public class LazyDataTableModelUserPessoa<T> extends LazyDataModel<UsuarioPessoa
 	}
 	
 	public void pesquisar(String campoPesquisa) {
-		sql += " where nome like '%"+campoPesquisa+"%'"; 
+		sql += " where nome like '%" + campoPesquisa + "%'"; 
 	}
 	public void setSql(String sql) {
 		this.sql = sql;

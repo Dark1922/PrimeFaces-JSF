@@ -65,7 +65,7 @@ public class UsuarioPessoaManagedBean implements Serializable {
 
 		ChartSeries userSalario = new ChartSeries();
 
-		for (UsuarioPessoa usuarioPessoa : list) {
+		for (UsuarioPessoa usuarioPessoa : list.list) {
 
 			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario());
 		}
