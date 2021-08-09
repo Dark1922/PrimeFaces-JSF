@@ -264,7 +264,7 @@ public class UsuarioPessoaManagedBean implements Serializable {
 		}catch(Exception e){
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Resultado", "Usuário sem Imagem"));
-		}
+		} 
 
 	}
 
