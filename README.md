@@ -3,7 +3,7 @@
 
 ## 🔖 Layout 
 
-![pfmcs (1)](https://user-images.githubusercontent.com/48605830/128643096-7e20ea44-f8af-4952-b03d-f14b1e329b2d.gif)
+![pfmcs (1)](https://user-images.githubusercontent.com/48605830/128649905-96a5aa5f-3bff-4009-a332-3b5c2b130820.gif)
 
 
 
