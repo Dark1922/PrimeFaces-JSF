@@ -265,7 +265,7 @@ public class UsuarioPessoaManagedBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Resultado", "Usuário sem Imagem"));
 		} 
- 
+  
 	}
 
 	public void setCampoPesquisa(String campoPesquisa) {
