@@ -64,7 +64,7 @@
 
 			<p:outputLabel value="CEP:" />
 			<p:inputMask value="#{usuarioPessoaManagedBean.usuarioPessoa.cep}"
-				id="cepuser" mask="99999-999" required="true"
+				id="cepuser" mask="99999999" required="true"
 				requiredMessage="Informe um Cep">
 				<p:watermark value="Informe um cep válido" for="cepuser" />
 				<f:ajax event="blur" execute="@this"
@@ -140,24 +140,28 @@
 
 
 	<h:form>
-			<p:panel header="Consultar Usuário" style="margin-top:20px;">
-				<h:panelGrid columns="3">
-					<h:outputLabel value="Nome:"/> 
-					<p:inputText value="#{usuarioPessoaManagedBean.campoPesquisa}"/>
-					<p:commandButton value="Buscar" actionListener="#{usuarioPessoaManagedBean.pesquisar}" update="formTable1 :graficoSalario" />
-				</h:panelGrid>
-			</p:panel>
-		</h:form>
+		<p:panel header="Consultar Usuário" style="margin-top:20px;">
+			<h:panelGrid columns="3">
+				<h:outputLabel value="Nome:" />
+				<p:inputText value="#{usuarioPessoaManagedBean.campoPesquisa}" />
+				<p:commandButton value="Buscar"
+					actionListener="#{usuarioPessoaManagedBean.pesquisar}"
+					update="formTable1 :graficoSalario" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
 
 
 	<h:form id="formTable1"
 		style="display:grid; justify-content: center; margin-top: 37px;">
 
-		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user" rows="5"  lazy="true"
-		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {LastPageLink}"   paginator="true" paginatorPosition="bottom">
-		
+		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user"
+			rows="5" lazy="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {LastPageLink}"
+			paginator="true" paginatorPosition="bottom">
 
-			<f:facet name="header" >Lista de Usuários</f:facet>
+
+			<f:facet name="header">Lista de Usuários</f:facet>
 
 			<p:column headerText="ID:" width="40">
 				<h:outputText value="#{user.id}" />
@@ -167,11 +171,11 @@
 				<h:outputText value="#{user.nome}" />
 			</p:column>
 
-			<p:column headerText="Imagem">
+			<p:column headerText="Imagem"  >
 				<center>
 					<h:commandLink immediate="true"
-						actionListener="#{usuarioPessoaManagedBean.dowload}">
-						<f:param name="fileDowloadId" value="#{user.id}" />
+						actionListener="#{usuarioPessoaManagedBean.dowload}" id="dowload">
+						<f:param name="fileDowloadId" value="#{user.id}"  />
 						<p:graphicImage value="/resources/img/baixar.png"
 							title="Baixar-Imagem-Usuario" width="32" height="32" />
 					</h:commandLink>
@@ -225,7 +229,7 @@
 				</center>
 			</p:column>
 
-		</p:dataTable >
+		</p:dataTable>
 
 		<p:dialog header="E-mails" id="dialogEmail" position="center"
 			modal="true" widgetVar="dialogEmail" resizable="false" width="600">
@@ -233,7 +237,11 @@
 			<h:panelGrid columns="3">
 				<p:outputLabel value="E-mail" />
 				<p:inputText value="#{usuarioPessoaManagedBean.emailUser.email}"
-					id="emailuseradd" />
+					id="emailuseradd" requiredMessage="Informe um Email"
+					autocomplete="true" placeholder="example@email.com"
+					validatorMessage="Nome tem que ter no minímo 8 caracteres" >
+					<f:validateLength maximum="50" minimum="8" />
+				</p:inputText>
 
 				<p:commandButton value="Adicionar"
 					actionListener="#{usuarioPessoaManagedBean.addEmail}"
@@ -265,15 +273,16 @@
 						</h:commandLink>
 					</center>
 				</p:column>
-			</p:dataTable >
+			</p:dataTable>
 		</p:dialog>
 
 	</h:form>
 
 	<div style="margin-top: 20px; padding: 5px;">
 
-		<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChatModel}" id="graficoSalario" />
-			
+		<p:chart type="bar" model="#{usuarioPessoaManagedBean.barChatModel}"
+			id="graficoSalario" />
+
 
 	</div>
 </h:body>

@@ -38,8 +38,8 @@ public class UsuarioPessoaManagedBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
-	
-	//vai carregar paginando
+
+	// vai carregar paginando
 	private LazyDataTableModelUserPessoa<UsuarioPessoa> list = new LazyDataTableModelUserPessoa<UsuarioPessoa>();
 
 	private DaoUsuario<UsuarioPessoa> daoGeneric = new DaoUsuario<UsuarioPessoa>();
@@ -50,12 +50,11 @@ public class UsuarioPessoaManagedBean implements Serializable {
 	private EmailUser emailUser = new EmailUser();
 	private DaoEmail<EmailUser> daoEmail = new DaoEmail<EmailUser>(); // entidade com os método do daogeneric
 	private String campoPesquisa;
-	
 
-	@PostConstruct //inicia os valores da tela
+	@PostConstruct // inicia os valores da tela
 	public void init() { // qnd iniciar a tela vai executar esse método de mostrar a tabela
-		
-		list.load(0, 5, null, null, null);//inicia os objetos de 0 a 5 no começo registros
+
+		list.load(0, 5, null, null, null);// inicia os objetos de 0 a 5 no começo registros
 
 		montarGrafico(); // mostra o grafico pela lista de pessoas cadastradas com seus salarios
 	}
@@ -74,15 +73,16 @@ public class UsuarioPessoaManagedBean implements Serializable {
 	}
 
 	public String salvar() {
-		
-    //dentro da nossa lista tem outra list com o adicionar lista do usuario dentro do lazy
+
+		// dentro da nossa lista tem outra list com o adicionar lista do usuario dentro
+		// do lazy
 		daoGeneric.updat(usuarioPessoa);
 		list.list.add(usuarioPessoa); // adiciona pra lista o novo user
 		init(); // dps de salvar atualiza o gráfico
 		usuarioPessoa = new UsuarioPessoa();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação: ", "Salvo com Sucesso!"));
-		
+
 		return "";
 	}
 
@@ -101,7 +101,7 @@ public class UsuarioPessoaManagedBean implements Serializable {
 
 		// base 64 pra jogar na tela e salvar no banco tb
 		String imagem = "data:imagem/png;base64," + DatatypeConverter.printBase64Binary(image.getFile().getContents());
-		usuarioPessoa.setImagem(imagem); //seta a imagem
+		usuarioPessoa.setImagem(imagem); // seta a imagem
 
 	}
 
@@ -233,32 +233,39 @@ public class UsuarioPessoaManagedBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Resultado", "Removido com Sucesso!"));
 	}
-	
+
 	public void dowload() throws IOException {
+			
+		try {
 		//vai ter todos atributos que foram enviados da nossa requisição
-		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		
-		//vai ter o id da pessoa passado pelo value ná página xhtml pq pega qlq dado da requisição que ja foi passado
-		String fileDowloadID = params.get("fileDowloadId");
-		
-		//nossa id ta em string ai faz um parse long e a classe da consulta do banco de dados da pessoa
-		UsuarioPessoa pessoa = daoGeneric.pesquisar(Long.parseLong(fileDowloadID), UsuarioPessoa.class);
-		
-		//imagem tá dentro do objeto pessoa que acabou de pesquisar
-		byte[] imagem = new org.apache.tomcat.util.codec.binary.Base64().decodeBase64(pessoa.getImagem().split("\\,")[1]);
-		
-		//como tá generico tem que fazer a conversão  (HttpServletResponse)
-		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-		
-		//attchament baixa direto n vai pra outra tela e o nome que quer
-		response.addHeader("Content-Disposition", "attachment; filename=dowload.png");
-		
-		response.setContentType("application/octet-stream");
-		response.setContentLength(imagem.length);
-		response.getOutputStream().write(imagem);
-		response.getOutputStream().flush(); //manda tudo pra resposta
-		FacesContext.getCurrentInstance().responseComplete(); //resposta completa
-		
+				Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+				
+				//vai ter o id da pessoa passado pelo value ná página xhtml pq pega qlq dado da requisição que ja foi passado
+				String fileDowloadID = params.get("fileDowloadId");
+				
+				//nossa id ta em string ai faz um parse long e a classe da consulta do banco de dados da pessoa
+				UsuarioPessoa pessoa = daoGeneric.pesquisar(Long.parseLong(fileDowloadID), UsuarioPessoa.class);
+				
+				//imagem tá dentro do objeto pessoa que acabou de pesquisar
+				byte[] imagem = new org.apache.tomcat.util.codec.binary.Base64().decodeBase64(pessoa.getImagem().split("\\,")[1]);
+				
+				//como tá generico tem que fazer a conversão  (HttpServletResponse)
+				HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+				
+				//attchament baixa direto n vai pra outra tela e o nome que quer
+				response.addHeader("Content-Disposition", "attachment; filename=dowload.png");
+				
+				response.setContentType("application/octet-stream");
+				response.setContentLength(imagem.length);
+				response.getOutputStream().write(imagem);
+				response.getOutputStream().flush(); //manda tudo pra resposta
+				FacesContext.getCurrentInstance().responseComplete(); //resposta completa
+				
+		}catch(Exception e){
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Resultado", "Usuário sem Imagem"));
+		}
+
 	}
 
 	public void setCampoPesquisa(String campoPesquisa) {
